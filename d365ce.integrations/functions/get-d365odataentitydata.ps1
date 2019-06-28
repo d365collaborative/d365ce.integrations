@@ -62,14 +62,6 @@
     .PARAMETER OutputAsJson
         Instructs the cmdlet to convert the output to a Json string
         
-    .PARAMETER RawOutput
-        Instructs the cmdlet to include the outer structure of the response received from OData endpoint
-        
-        The output will still be a PSCustomObject
-        
-    .PARAMETER OutputAsJson
-        Instructs the cmdlet to convert the output to a Json string
-        
     .EXAMPLE
         PS C:\> Get-D365ODataEntityData -EntityName CustomersV3 -ODataQuery '$top=1'
         
@@ -208,8 +200,8 @@ function Get-D365ODataEntityData {
             }
         }
         catch {
-            $messageString = "Something went wrong while retrieving data from the OData endpoint for the entity: $entity"
-            Write-PSFMessage -Level Host -Message $messageString -Exception $PSItem.Exception -Target $entity
+            $messageString = "Something went wrong while retrieving data from the OData endpoint for the entity: $EntityName"
+            Write-PSFMessage -Level Host -Message $messageString -Exception $PSItem.Exception -Target $EntityName
             Stop-PSFFunction -Message "Stopping because of errors." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', ''))) -ErrorRecord $_
             return
         }

@@ -45,7 +45,8 @@
 		
         ,   'Get-D365ActiveODataConfig'
         ,	'Get-D365ODataConfig'
-        ,   'Get-D365ODataEntityData'
+		,   'Get-D365ODataEntityData'
+		,	'Get-D365ODataEntityDataByKey'
         
         ,   'Import-D365ODataEntity'
         ,   'Import-D365ODataEntityBatchMode'
