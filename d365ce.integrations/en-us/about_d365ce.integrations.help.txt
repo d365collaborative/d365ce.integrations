@@ -1,0 +1,11 @@
+TOPIC
+	about_d365ce.integrations
+	
+SHORT DESCRIPTION
+	Explains how to use the d365ce.integrations powershell module
+	
+LONG DESCRIPTION
+	<Insert Content here>
+
+KEYWORDS
+	d365ce.integrations

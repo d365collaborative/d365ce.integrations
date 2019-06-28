@@ -1,0 +1,25 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2010
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{298338D5-2AB6-44FA-AC95-BE51BFA90D6E}") = "d365ce.integrations", "d365ce.integrations\d365ce.integrations.csproj", "{AA1ABAC3-48C7-4FF4-885E-C937629CED8F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AA1ABAC3-48C7-4FF4-885E-C937629CED8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA1ABAC3-48C7-4FF4-885E-C937629CED8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA1ABAC3-48C7-4FF4-885E-C937629CED8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA1ABAC3-48C7-4FF4-885E-C937629CED8F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {34F309FF-081A-43FA-8016-3F97BB70E2FA}
+	EndGlobalSection
+EndGlobal
