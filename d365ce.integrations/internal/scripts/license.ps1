@@ -1,4 +1,4 @@
-New-PSFLicense -Product 'd365ce.integrations' -Manufacturer 'Motz' -ProductVersion $script:ModuleVersion -ProductType Module -Name MIT -Version "1.0.0.0" -Date (Get-Date "2019-06-27") -Text @"
+﻿New-PSFLicense -Product 'd365ce.integrations' -Manufacturer 'Motz' -ProductVersion $script:ModuleVersion -ProductType Module -Name MIT -Version "1.0.0.0" -Date (Get-Date "2019-06-27") -Text @"
 Copyright (c) 2019 Motz
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
