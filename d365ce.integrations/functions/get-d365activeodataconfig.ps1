@@ -22,24 +22,15 @@
         Tags: OData, Environment, Config, Configuration, ClientId, ClientSecret
         
         Author: Mötz Jensen (@Splaxi)
-        
+    
     .LINK
-        Add-D365BroadcastMessageConfig
-        
+        Add-D365ODataConfig
+
     .LINK
-        Clear-D365ActiveBroadcastMessageConfig
-        
+        Get-D365ODataConfig
+
     .LINK
-        Get-D365BroadcastMessageConfig
-        
-    .LINK
-        Remove-D365BroadcastMessageConfig
-        
-    .LINK
-        Send-D365BroadcastMessage
-        
-    .LINK
-        Set-D365ActiveBroadcastMessageConfig
+        Set-D365ActiveODataConfig
 #>
 
 function Get-D365ActiveODataConfig {
