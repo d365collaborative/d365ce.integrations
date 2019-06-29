@@ -15,7 +15,7 @@
         The token value that should be used to authenticate against the URL / URI endpoint
         
     .PARAMETER Payload
-        The entire string contain the json object that you want to import into the D365FO environment
+        The entire string contain the json object that you want to import into the D365CE environment
         
     .PARAMETER Count
         The index number that the content should be stamped with, to be valid in the entire batch request content

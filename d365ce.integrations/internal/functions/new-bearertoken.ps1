@@ -16,7 +16,7 @@
         The ClientSecret obtained from the Azure Portal when you created a Registered Application
         
     .PARAMETER Tenant
-        Azure Active Directory (AAD) tenant id (Guid) that the D365FO environment is connected to, that you want to authenticate against
+        Azure Active Directory (AAD) tenant id (Guid) that the D365CE environment is connected to, that you want to authenticate against
         
     .EXAMPLE
         PS C:\> New-BearerToken -Url "https://usnconeboxax1aos.cloud.onebox.dynamics.com" -ClientId "dea8d7a9-1602-4429-b138-111111111111" -ClientSecret "Vja/VmdxaLOPR+alkjfsadffelkjlfw234522" -Tenant "e674da86-7ee5-40a7-b777-1111111111111"

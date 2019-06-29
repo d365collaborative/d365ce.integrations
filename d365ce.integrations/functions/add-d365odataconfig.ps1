@@ -10,10 +10,10 @@
         The logical name of the OData configuration you are about to register in the configuration store
         
     .PARAMETER Tenant
-        Azure Active Directory (AAD) tenant id (Guid) that the D365FO environment is connected to, that you want to access through OData
+        Azure Active Directory (AAD) tenant id (Guid) that the D365CE environment is connected to, that you want to access through OData
         
     .PARAMETER Url
-        URL / URI for the D365FO environment you want to access through OData
+        URL / URI for the D365CE environment you want to access through OData
         
     .PARAMETER ClientId
         The ClientId obtained from the Azure Portal when you created a Registered Application
@@ -36,7 +36,7 @@
         
         This will create an new OData configuration with the name "UAT".
         It will save "e674da86-7ee5-40a7-b777-1111111111111" as the Azure Active Directory guid.
-        It will save "https://usnconeboxax1aos.cloud.onebox.dynamics.com" as the D365FO environment.
+        It will save "https://usnconeboxax1aos.cloud.onebox.dynamics.com" as the D365CE environment.
         It will save "dea8d7a9-1602-4429-b138-111111111111" as the ClientId.
         It will save "Vja/VmdxaLOPR+alkjfsadffelkjlfw234522" as ClientSecret.
         
@@ -46,22 +46,13 @@
         Author: Mötz Jensen (@Splaxi)
         
     .LINK
-        Clear-D365ActiveBroadcastMessageConfig
-        
+        Get-D365ODataConfig
+
     .LINK
-        Get-D365ActiveBroadcastMessageConfig
-        
+        Get-D365ActiveODataConfig
+
     .LINK
-        Get-D365BroadcastMessageConfig
-        
-    .LINK
-        Remove-D365BroadcastMessageConfig
-        
-    .LINK
-        Send-D365BroadcastMessage
-        
-    .LINK
-        Set-D365ActiveBroadcastMessageConfig
+        Set-D365ActiveODataConfig
 #>
 
 function Add-D365ODataConfig {

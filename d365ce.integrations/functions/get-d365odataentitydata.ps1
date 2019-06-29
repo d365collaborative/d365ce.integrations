@@ -4,14 +4,14 @@
         Get data from an Data Entity using OData
         
     .DESCRIPTION
-        Get data from an Data Entity using the OData endpoint of the Dynamics 365 Finance & Operations
+        Get data from an Data Entity using the OData endpoint of the Dynamics 365 Customer Engagement
         
     .PARAMETER EntityName
         Name of the Data Entity you want to work against
         
-        The parameter is Case Sensitive, because the OData endpoint in D365FO is Case Sensitive
+        The parameter is Case Sensitive, because the OData endpoint in D365CE is Case Sensitive
         
-        Remember that most Data Entities in a D365FO environment is named by its singular name, but most be retrieve using the plural name
+        Remember that most Data Entities in a D365CE environment is named by its singular name, but most be retrieve using the plural name
         
         E.g. The version 3 of the customers Data Entity is named CustomerV3, but can only be retrieving using CustomersV3
         
@@ -39,10 +39,10 @@
         Instruct the cmdlet / function to ensure the request against the OData endpoint will search across all companies
         
     .PARAMETER Tenant
-        Azure Active Directory (AAD) tenant id (Guid) that the D365FO environment is connected to, that you want to access through OData
+        Azure Active Directory (AAD) tenant id (Guid) that the D365CE environment is connected to, that you want to access through OData
         
     .PARAMETER Url
-        URL / URI for the D365FO environment you want to access through OData
+        URL / URI for the D365CE environment you want to access through OData
         
     .PARAMETER ClientId
         The ClientId obtained from the Azure Portal when you created a Registered Application
@@ -77,7 +77,7 @@
         This will get Customers from the OData endpoint.
         It will use the CustomerV3 entity, and its EntitySetName / CollectionName "CustomersV3".
         It will get the top 10 results from the list of customers.
-        It will make sure to search across all legal entities / companies inside the D365FO environment.
+        It will make sure to search across all legal entities / companies inside the D365CE environment.
         
         It will use the default OData configuration details that are stored in the configuration store.
         
@@ -87,7 +87,7 @@
         This will get Customers from the OData endpoint.
         It will use the CustomerV3 entity, and its EntitySetName / CollectionName "CustomersV3".
         It will get the top 10 results from the list of customers.
-        It will make sure to search across all legal entities / companies inside the D365FO environment.
+        It will make sure to search across all legal entities / companies inside the D365CE environment.
         It will search the customers inside the "Comp1" legal entity / company.
         
         It will use the default OData configuration details that are stored in the configuration store.

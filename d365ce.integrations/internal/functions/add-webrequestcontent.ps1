@@ -10,7 +10,7 @@
         The Web Request object that you want to add the content to
         
     .PARAMETER Payload
-        The entire string contain the json object that you want to pass to the D365FO environment
+        The entire string contain the json object that you want to pass to the D365CE environment
         
     .EXAMPLE
         PS C:\> $request = New-WebRequest -Url "https://usnconeboxax1aos.cloud.onebox.dynamics.com/api/connector/ack/123456789" -Action "POST" -AuthenticationToken "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOi....."

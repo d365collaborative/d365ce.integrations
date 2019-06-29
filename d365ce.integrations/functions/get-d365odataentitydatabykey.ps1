@@ -68,7 +68,7 @@
         This will get the specific Customer from the OData endpoint.
         It will use the "CustomerV3" entity, and its EntitySetName / CollectionName "CustomersV3".
         It will use the "dataAreaId='DAT',CustomerAccount='123456789'" as key to identify the unique Customer record.
-        It will make sure to search across all legal entities / companies inside the D365FO environment.
+        It will make sure to search across all legal entities / companies inside the D365CE environment.
         
         It will use the default OData configuration details that are stored in the configuration store.
         

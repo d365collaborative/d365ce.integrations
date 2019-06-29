@@ -1,17 +1,17 @@
 ﻿
 <#
     .SYNOPSIS
-        Remove a Data Entity from Dynamics 365 Finance & Operations
+        Remove a Data Entity from Dynamics 365 Customer Engagement
         
     .DESCRIPTION
-        Removes a Data Entity, defined by the EntityKey, using the OData endpoint of the Dynamics 365 Finance & Operations
+        Removes a Data Entity, defined by the EntityKey, using the OData endpoint of the Dynamics 365 Customer Engagement
         
     .PARAMETER EntityName
         Name of the Data Entity you want to work against
         
-        The parameter is Case Sensitive, because the OData endpoint in D365FO is Case Sensitive
+        The parameter is Case Sensitive, because the OData endpoint in D365CE is Case Sensitive
         
-        Remember that most Data Entities in a D365FO environment is named by its singular name, but most be retrieve using the plural name
+        Remember that most Data Entities in a D365CE environment is named by its singular name, but most be retrieve using the plural name
         
         E.g. The version 3 of the customers Data Entity is named CustomerV3, but can only be retrieving using CustomersV3
         
@@ -26,10 +26,10 @@
         Instruct the cmdlet / function to ensure the request against the OData endpoint will work across all companies
         
     .PARAMETER Tenant
-        Azure Active Directory (AAD) tenant id (Guid) that the D365FO environment is connected to, that you want to access through OData
+        Azure Active Directory (AAD) tenant id (Guid) that the D365CE environment is connected to, that you want to access through OData
         
     .PARAMETER Url
-        URL / URI for the D365FO environment you want to access through OData
+        URL / URI for the D365CE environment you want to access through OData
         
     .PARAMETER ClientId
         The ClientId obtained from the Azure Portal when you created a Registered Application
@@ -44,7 +44,7 @@
     .EXAMPLE
         PS C:\> Remove-D365ODataEntity -EntityName ExchangeRates -EntityKey "RateTypeName='TEST'","FromCurrency='DKK'","ToCurrency='EUR'","StartDate=2019-01-13T12:00:00Z"
         
-        This will remove a Data Entity from the D365FO environment through OData.
+        This will remove a Data Entity from the D365CE environment through OData.
         It will use the ExchangeRate entity, and its EntitySetName / CollectionName "ExchangeRates".
         It will use the "RateTypeName='TEST'","FromCurrency='DKK'","ToCurrency='EUR'","StartDate=2019-01-13T12:00:00Z" as the unique key for the entity.
         
