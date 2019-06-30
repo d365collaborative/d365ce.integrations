@@ -32,25 +32,12 @@ Get data from an Data Entity, by providing a key, using the OData endpoint of th
 
 ### EXAMPLE 1
 ```
-Get-D365ODataEntityDataByKey -EntityName CustomersV3 -Key "dataAreaId='DAT',CustomerAccount='123456789'"
+Get-D365ODataEntityDataByKey -EntityName accounts -Key "accountid=4b306dc7-ab04-4ddf-b18d-d75ffa2dba2c"
 ```
 
-This will get the specific Customer from the OData endpoint.
-It will use the "CustomerV3" entity, and its EntitySetName / CollectionName "CustomersV3".
-It will use the "dataAreaId='DAT',CustomerAccount='123456789'" as key to identify the unique Customer record.
-It will NOT look across companies.
-
-It will use the default OData configuration details that are stored in the configuration store.
-
-### EXAMPLE 2
-```
-Get-D365ODataEntityDataByKey -EntityName CustomersV3 -Key "dataAreaId='DAT',CustomerAccount='123456789'"
-```
-
-This will get the specific Customer from the OData endpoint.
-It will use the "CustomerV3" entity, and its EntitySetName / CollectionName "CustomersV3".
-It will use the "dataAreaId='DAT',CustomerAccount='123456789'" as key to identify the unique Customer record.
-It will make sure to search across all legal entities / companies inside the D365CE environment.
+This will get the specific Account from the OData endpoint.
+It will use the "Account" entity, and its EntitySetName / CollectionName "accounts".
+It will use the "accountid=4b306dc7-ab04-4ddf-b18d-d75ffa2dba2c" as key to identify the unique Account record.
 
 It will use the default OData configuration details that are stored in the configuration store.
 
@@ -220,16 +207,6 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
-The OData standard is using the $ (dollar sign) for many functions and features, which in PowerShell is normally used for variables.
-
-Whenever you want to use the different query options, you need to take the $ sign and single quotes into consideration.
-
-Example of an execution where I want the top 1 result only, from a specific legal entity / company.
-This example is using single quotes, to help PowerShell not trying to convert the $ into a variable.
-Because the OData standard is using single quotes as text qualifiers, we need to escape them with multiple single quotes.
-
--ODataQuery '$top=1&$filter=dataAreaId eq ''Comp1'''
-
 Tags: OData, Data, Entity, Query
 
 Author: Mötz Jensen (@Splaxi)

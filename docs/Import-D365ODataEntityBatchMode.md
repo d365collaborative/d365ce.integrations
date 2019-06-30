@@ -13,9 +13,9 @@ Import a set of Data Entities into Dynamics 365 Customer Engagement
 ## SYNTAX
 
 ```
-Import-D365ODataEntityBatchMode [-EntityName] <String> [-Payload] <String[]> [-CrossCompany]
- [[-Tenant] <String>] [[-URL] <String>] [[-ClientId] <String>] [[-ClientSecret] <String>] [-RawOutput]
- [-EnableException] [<CommonParameters>]
+Import-D365ODataEntityBatchMode [-EntityName] <String> [-Payload] <String[]> [[-Tenant] <String>]
+ [[-URL] <String>] [[-ClientId] <String>] [[-ClientSecret] <String>] [-RawOutput] [-EnableException]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -56,9 +56,9 @@ The parameter is Case Sensitive, because the OData endpoint in D365CE is Case Se
 Remember that most Data Entities in a D365CE environment is named by its singular name, but most be retrieve using the plural name
 
 E.g.
-The version 3 of the customers Data Entity is named CustomerV3, but can only be retrieving using CustomersV3
+The account Data Entity is named "account", but can only be retrieving using "accounts"
 
-Look at the Get-D365ODataPublicEntity cmdlet to help you obtain the correct name
+Use the XRMToolBox (https://www.xrmtoolbox.com) to help you identify the names of the Data Entities that you are looking for
 
 ```yaml
 Type: String
@@ -85,21 +85,6 @@ Aliases: Json
 Required: True
 Position: 2
 Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -CrossCompany
-Instruct the cmdlet / function to ensure the request against the OData endpoint will work across all companies
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
