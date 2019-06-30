@@ -3,7 +3,7 @@
     RootModule        = 'd365ce.integrations.psm1'
 	
     # Version number of this module.
-    ModuleVersion     = '0.1.0'
+    ModuleVersion     = '0.2.0'
 	
     # ID used to uniquely identify this module
     GUID              = '05212d7b-cf13-42b7-9573-e1470803d03d'
