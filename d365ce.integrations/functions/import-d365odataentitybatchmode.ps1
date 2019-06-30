@@ -16,7 +16,7 @@
         Remember that most Data Entities in a D365CE environment is named by its singular name, but most be retrieve using the plural name
         
         E.g. The account Data Entity is named "account", but can only be retrieving using "accounts"
-
+        
         Use the XRMToolBox (https://www.xrmtoolbox.com) to help you identify the names of the Data Entities that you are looking for
         
     .PARAMETER Payload

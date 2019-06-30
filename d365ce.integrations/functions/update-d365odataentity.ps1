@@ -14,14 +14,14 @@
         Remember that most Data Entities in a D365CE environment is named by its singular name, but most be retrieve using the plural name
         
         E.g. The account Data Entity is named "account", but can only be retrieving using "accounts"
-
+        
         Use the XRMToolBox (https://www.xrmtoolbox.com) to help you identify the names of the Data Entities that you are looking for
         
     .PARAMETER Payload
         The entire string contain the json object that you want to import into the D365CE environment
         
         Remember that json is text based and can use either single quotes (') or double quotes (") as the text qualifier, so you might need to escape the different quotes in your payload before passing it in
-       
+        
     .PARAMETER Tenant
         Azure Active Directory (AAD) tenant id (Guid) that the D365CE environment is connected to, that you want to access through OData
         
@@ -47,7 +47,7 @@
         The Payload is a valid json string, containing the needed properties that we want to update.
         
         It will use the default OData configuration details that are stored in the configuration store.
-
+        
     .EXAMPLE
         PS C:\> $Payload = '{"address2_city": "Chicago"}'
         PS C:\> Update-D365ODataEntity -EntityName "accounts" -Key "accountid=4b306dc7-ab04-4ddf-b18d-d75ffa2dba2c" -Payload $Payload
@@ -57,7 +57,7 @@
         The EntityName used for the import is "accounts".
         It will use the "accountid=4b306dc7-ab04-4ddf-b18d-d75ffa2dba2c" as key to identify the unique Account record.
         The $Payload variable is passed to the cmdlet.
-
+        
         It will use the default OData configuration details that are stored in the configuration store.
         
     .NOTES

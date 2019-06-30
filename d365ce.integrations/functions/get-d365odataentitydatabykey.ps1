@@ -51,7 +51,7 @@
         
     .PARAMETER OutputAsJson
         Instructs the cmdlet to convert the output to a Json string
-
+        
     .EXAMPLE
         PS C:\> Get-D365ODataEntityDataByKey -EntityName accounts -Key "accountid=4b306dc7-ab04-4ddf-b18d-d75ffa2dba2c"
         
@@ -60,12 +60,12 @@
         It will use the "accountid=4b306dc7-ab04-4ddf-b18d-d75ffa2dba2c" as key to identify the unique Account record.
         
         It will use the default OData configuration details that are stored in the configuration store.
-
+        
     .NOTES
         Tags: OData, Data, Entity, Query
         
         Author: Mötz Jensen (@Splaxi)
-
+        
     .LINK
         Add-D365ODataConfig
         
