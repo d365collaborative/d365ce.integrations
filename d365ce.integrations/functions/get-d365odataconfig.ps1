@@ -19,18 +19,18 @@
         This is less user friendly, but allows catching exceptions in calling scripts
         
     .EXAMPLE
-        PS C:\> Get-D365ODataConfig
+        PS C:\> Get-D365CeODataConfig
         
         This will display all OData configurations on the machine.
         
     .EXAMPLE
-        PS C:\> Get-D365ODataConfig -OutputAsHashtable
+        PS C:\> Get-D365CeODataConfig -OutputAsHashtable
         
         This will display all OData configurations on the machine.
         Every object will be output as a hashtable, for you to utilize as parameters for other cmdlets.
         
     .EXAMPLE
-        PS C:\> Get-D365ODataConfig -Name "UAT"
+        PS C:\> Get-D365CeODataConfig -Name "UAT"
         
         This will display the OData configuration that is saved with the name "UAT" on the machine.
         
@@ -40,17 +40,17 @@
         Author: Mötz Jensen (@Splaxi)
         
     .LINK
-        Add-D365ODataConfig
+        Add-D365CeODataConfig
         
     .LINK
-        Get-D365ActiveODataConfig
+        Get-D365CeActiveODataConfig
         
     .LINK
-        Set-D365ActiveODataConfig
+        Set-D365CeActiveODataConfig
         
 #>
 
-function Get-D365ODataConfig {
+function Get-D365CeODataConfig {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseOutputTypeCorrectly', '')]
     [CmdletBinding()]
     [OutputType('PSCustomObject')]

@@ -31,7 +31,7 @@ function Update-ODataVariables {
     $configName = $configName.ToString().ToLower()
     
     if (-not ($configName -eq "")) {
-        $configHash = Get-D365ActiveODataConfig -OutputAsHashtable
+        $configHash = Get-D365CeActiveODataConfig -OutputAsHashtable
         foreach ($item in $configHash.Keys) {
             if ($item -eq "name") { continue }
             

@@ -44,7 +44,7 @@
         This is less user friendly, but allows catching exceptions in calling scripts
         
     .EXAMPLE
-        PS C:\> Import-D365ODataEntityBatchMode -EntityName "ExchangeRates" -Payload '{"@odata.type" :"Microsoft.Dynamics.DataEntities.ExchangeRate", "RateTypeName": "TEST", "FromCurrency": "DKK", "ToCurrency": "EUR", "StartDate": "2019-01-03T00:00:00Z", "Rate": 745.10, "ConversionFactor": "Hundred", "RateTypeDescription": "TEST"}','{"@odata.type" :"Microsoft.Dynamics.DataEntities.ExchangeRate", "RateTypeName": "TEST", "FromCurrency": "DKK", "ToCurrency": "EUR", "StartDate": "2019-01-04T00:00:00Z", "Rate": 745.10, "ConversionFactor": "Hundred", "RateTypeDescription": "TEST"}'
+        PS C:\> Import-D365CeODataEntityBatchMode -EntityName "ExchangeRates" -Payload '{"@odata.type" :"Microsoft.Dynamics.DataEntities.ExchangeRate", "RateTypeName": "TEST", "FromCurrency": "DKK", "ToCurrency": "EUR", "StartDate": "2019-01-03T00:00:00Z", "Rate": 745.10, "ConversionFactor": "Hundred", "RateTypeDescription": "TEST"}','{"@odata.type" :"Microsoft.Dynamics.DataEntities.ExchangeRate", "RateTypeName": "TEST", "FromCurrency": "DKK", "ToCurrency": "EUR", "StartDate": "2019-01-04T00:00:00Z", "Rate": 745.10, "ConversionFactor": "Hundred", "RateTypeDescription": "TEST"}'
         
         This will import a set of Data Entities into Dynamics 365 Customer Engagement using the OData endpoint.
         The EntityName used for the import is ExchangeRates.
@@ -52,7 +52,7 @@
         
     .EXAMPLE
         PS C:\> $Payload = '{"@odata.type" :"Microsoft.Dynamics.DataEntities.ExchangeRate", "RateTypeName": "TEST", "FromCurrency": "DKK", "ToCurrency": "EUR", "StartDate": "2019-01-03T00:00:00Z", "Rate": 745.10, "ConversionFactor": "Hundred", "RateTypeDescription": "TEST"}','{"@odata.type" :"Microsoft.Dynamics.DataEntities.ExchangeRate", "RateTypeName": "TEST", "FromCurrency": "DKK", "ToCurrency": "EUR", "StartDate": "2019-01-04T00:00:00Z", "Rate": 745.10, "ConversionFactor": "Hundred", "RateTypeDescription": "TEST"}'
-        PS C:\> Import-D365ODataEntityBatchMode -EntityName "ExchangeRates" -Payload $Payload
+        PS C:\> Import-D365CeODataEntityBatchMode -EntityName "ExchangeRates" -Payload $Payload
         
         This will import a set of Data Entities into Dynamics 365 Customer Engagement using the OData endpoint.
         First the desired json data is put into the $Payload variable.
@@ -65,16 +65,16 @@
         Author: Mötz Jensen (@Splaxi)
         
     .LINK
-        Add-D365ODataConfig
+        Add-D365CeODataConfig
         
     .LINK
-        Get-D365ActiveODataConfig
+        Get-D365CeActiveODataConfig
         
     .LINK
-        Set-D365ActiveODataConfig
+        Set-D365CeActiveODataConfig
 #>
 
-function Import-D365ODataEntityBatchMode {
+function Import-D365CeODataEntityBatchMode {
     [CmdletBinding()]
     [OutputType('System.String')]
     param (

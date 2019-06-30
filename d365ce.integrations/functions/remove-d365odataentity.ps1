@@ -39,7 +39,7 @@
         This is less user friendly, but allows catching exceptions in calling scripts
         
     .EXAMPLE
-        PS C:\> Remove-D365ODataEntity -EntityName ExchangeRates -EntityKey "RateTypeName='TEST'","FromCurrency='DKK'","ToCurrency='EUR'","StartDate=2019-01-13T12:00:00Z"
+        PS C:\> Remove-D365CeODataEntity -EntityName ExchangeRates -EntityKey "RateTypeName='TEST'","FromCurrency='DKK'","ToCurrency='EUR'","StartDate=2019-01-13T12:00:00Z"
         
         This will remove a Data Entity from the D365CE environment through OData.
         It will use the ExchangeRate entity, and its EntitySetName / CollectionName "ExchangeRates".
@@ -53,16 +53,16 @@
         Author: Mötz Jensen (@Splaxi)
         
     .LINK
-        Add-D365ODataConfig
+        Add-D365CeODataConfig
         
     .LINK
-        Get-D365ActiveODataConfig
+        Get-D365CeActiveODataConfig
         
     .LINK
-        Set-D365ActiveODataConfig
+        Set-D365CeActiveODataConfig
 #>
 
-function Remove-D365ODataEntity {
+function Remove-D365CeODataEntity {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     [OutputType()]

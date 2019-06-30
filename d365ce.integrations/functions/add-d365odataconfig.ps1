@@ -32,7 +32,7 @@
         This is less user friendly, but allows catching exceptions in calling scripts
         
     .EXAMPLE
-        PS C:\> Add-D365ODataConfig -Name "UAT" -Tenant "e674da86-7ee5-40a7-b777-1111111111111" -Url "https://usnconeboxax1aos.cloud.onebox.dynamics.com" -ClientId "dea8d7a9-1602-4429-b138-111111111111" -ClientSecret "Vja/VmdxaLOPR+alkjfsadffelkjlfw234522"
+        PS C:\> Add-D365CeODataConfig -Name "UAT" -Tenant "e674da86-7ee5-40a7-b777-1111111111111" -Url "https://usnconeboxax1aos.cloud.onebox.dynamics.com" -ClientId "dea8d7a9-1602-4429-b138-111111111111" -ClientSecret "Vja/VmdxaLOPR+alkjfsadffelkjlfw234522"
         
         This will create an new OData configuration with the name "UAT".
         It will save "e674da86-7ee5-40a7-b777-1111111111111" as the Azure Active Directory guid.
@@ -46,16 +46,16 @@
         Author: Mötz Jensen (@Splaxi)
         
     .LINK
-        Get-D365ODataConfig
+        Get-D365CeODataConfig
         
     .LINK
-        Get-D365ActiveODataConfig
+        Get-D365CeActiveODataConfig
         
     .LINK
-        Set-D365ActiveODataConfig
+        Set-D365CeActiveODataConfig
 #>
 
-function Add-D365ODataConfig {
+function Add-D365CeODataConfig {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true, Position = 0)]

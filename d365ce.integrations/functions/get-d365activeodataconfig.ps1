@@ -14,7 +14,7 @@
         This is less user friendly, but allows catching exceptions in calling scripts
         
     .EXAMPLE
-        PS C:\> Get-D365ActiveODataConfig
+        PS C:\> Get-D365CeActiveODataConfig
         
         This will get the active OData configuration.
         
@@ -24,16 +24,16 @@
         Author: Mötz Jensen (@Splaxi)
         
     .LINK
-        Add-D365ODataConfig
+        Add-D365CeODataConfig
         
     .LINK
-        Get-D365ODataConfig
+        Get-D365CeODataConfig
         
     .LINK
-        Set-D365ActiveODataConfig
+        Set-D365CeActiveODataConfig
 #>
 
-function Get-D365ActiveODataConfig {
+function Get-D365CeActiveODataConfig {
     [CmdletBinding()]
     [OutputType()]
     param (
@@ -51,5 +51,5 @@ function Get-D365ActiveODataConfig {
         return
     }
 
-    Get-D365ODataConfig -Name $configName -OutputAsHashtable:$OutputAsHashtable
+    Get-D365CeODataConfig -Name $configName -OutputAsHashtable:$OutputAsHashtable
 }

@@ -21,7 +21,7 @@
         The key that will select the desired Data Entity uniquely across the OData endpoint
         
         The key would most likely be made up from multiple values, but can also be a single value
-        
+
     .PARAMETER Payload
         The entire string contain the json object that you want to import into the D365CE environment
         
@@ -44,7 +44,7 @@
         This is less user friendly, but allows catching exceptions in calling scripts
         
     .EXAMPLE
-        PS C:\> Update-D365ODataEntity -EntityName "accounts" -Key "accountid=4b306dc7-ab04-4ddf-b18d-d75ffa2dba2c" -Payload '{"address2_city": "Chicago"}'
+        PS C:\> Update-D365CeODataEntity -EntityName "accounts" -Key "accountid=4b306dc7-ab04-4ddf-b18d-d75ffa2dba2c" -Payload '{"address2_city": "Chicago"}'
         
         This will update a Data Entity in Dynamics 365 Customer Engagement using the OData endpoint.
         The EntityName used for the import is "accounts".
@@ -55,7 +55,7 @@
         
     .EXAMPLE
         PS C:\> $Payload = '{"address2_city": "Chicago"}'
-        PS C:\> Update-D365ODataEntity -EntityName "accounts" -Key "accountid=4b306dc7-ab04-4ddf-b18d-d75ffa2dba2c" -Payload $Payload
+        PS C:\> Update-D365CeODataEntity -EntityName "accounts" -Key "accountid=4b306dc7-ab04-4ddf-b18d-d75ffa2dba2c" -Payload $Payload
         
         This will update a Data Entity in Dynamics 365 Customer Engagement using the OData endpoint.
         First the desired json data is put into the $Payload variable.
@@ -71,16 +71,16 @@
         Author: Mötz Jensen (@Splaxi)
         
     .LINK
-        Add-D365ODataConfig
+        Add-D365CeODataConfig
         
     .LINK
-        Get-D365ActiveODataConfig
+        Get-D365CeActiveODataConfig
         
     .LINK
-        Set-D365ActiveODataConfig
+        Set-D365CeActiveODataConfig
 #>
 
-function Update-D365ODataEntity {
+function Update-D365CeODataEntity {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     [OutputType()]
@@ -154,7 +154,7 @@ function Update-D365ODataEntity {
                 $resp = [System.Net.HttpWebResponse]$webException.Response
 
                 if($resp.StatusCode -eq [System.Net.HttpStatusCode]::NotFound){
-                    $messageString = "It seems that the OData endpoint was unable to locate the desired entity: $EntityName, based on the key: <c='em'>$key</c>. Please make sure that the key is <c='em'>valid</c> or try using the <c='em'>Get-D365OdataEntityData</c> cmdlet to search for the correct entity first."
+                    $messageString = "It seems that the OData endpoint was unable to locate the desired entity: $EntityName, based on the key: <c='em'>$key</c>. Please make sure that the key is <c='em'>valid</c> or try using the <c='em'>Get-D365CeOdataEntityData</c> cmdlet to search for the correct entity first."
                     Write-PSFMessage -Level Host -Message $messageString -Exception $PSItem.Exception -Target $EntityName
                     Stop-PSFFunction -Message "Stopping because of HTTP error 404." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', ''))) -ErrorRecord $_
                     return

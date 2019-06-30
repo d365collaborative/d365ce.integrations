@@ -53,7 +53,7 @@
         Instructs the cmdlet to convert the output to a Json string
         
     .EXAMPLE
-        PS C:\> Get-D365ODataEntityDataByKey -EntityName accounts -Key "accountid=4b306dc7-ab04-4ddf-b18d-d75ffa2dba2c"
+        PS C:\> Get-D365CeODataEntityDataByKey -EntityName accounts -Key "accountid=4b306dc7-ab04-4ddf-b18d-d75ffa2dba2c"
         
         This will get the specific Account from the OData endpoint.
         It will use the "Account" entity, and its EntitySetName / CollectionName "accounts".
@@ -67,17 +67,17 @@
         Author: Mötz Jensen (@Splaxi)
         
     .LINK
-        Add-D365ODataConfig
+        Add-D365CeODataConfig
         
     .LINK
-        Get-D365ActiveODataConfig
+        Get-D365CeActiveODataConfig
         
     .LINK
-        Set-D365ActiveODataConfig
+        Set-D365CeActiveODataConfig
         
 #>
 
-function Get-D365ODataEntityDataByKey {
+function Get-D365CeODataEntityDataByKey {
     [CmdletBinding(DefaultParameterSetName = "Default")]
     [OutputType()]
     param (
@@ -163,7 +163,7 @@ function Get-D365ODataEntityDataByKey {
                 $resp = [System.Net.HttpWebResponse]$webException.Response
 
                 if($resp.StatusCode -eq [System.Net.HttpStatusCode]::NotFound){
-                    $messageString = "It seems that the OData endpoint was unable to locate the desired entity: $EntityName, based on the key: <c='em'>$key</c>. Please make sure that the key is <c='em'>valid</c> or try using the <c='em'>Get-D365OdataEntityData</c> cmdlet to search for the correct entity first."
+                    $messageString = "It seems that the OData endpoint was unable to locate the desired entity: $EntityName, based on the key: <c='em'>$key</c>. Please make sure that the key is <c='em'>valid</c> or try using the <c='em'>Get-D365CeOdataEntityData</c> cmdlet to search for the correct entity first."
                     Write-PSFMessage -Level Host -Message $messageString -Exception $PSItem.Exception -Target $EntityName
                     Stop-PSFFunction -Message "Stopping because of HTTP error 404." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', ''))) -ErrorRecord $_
                     return

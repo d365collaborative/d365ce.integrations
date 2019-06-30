@@ -20,7 +20,7 @@
     .PARAMETER EntitySetName
         Name of the Data Entity you want to work against
         
-        The parameter is created specifically to be used when piping from Get-D365ODataPublicEntity
+        The parameter is created specifically to be used when piping from Get-D365CeODataPublicEntity
         
     .PARAMETER ODataQuery
         Valid OData query string that you want to pass onto the D365 OData endpoint while retrieving data
@@ -60,7 +60,7 @@
         Instructs the cmdlet to convert the output to a Json string
         
     .EXAMPLE
-        PS C:\> Get-D365ODataEntityData -EntityName accounts -ODataQuery '$top=1'
+        PS C:\> Get-D365CeODataEntityData -EntityName accounts -ODataQuery '$top=1'
         
         This will get Accounts from the OData endpoint.
         It will use the "Account" entity, and its EntitySetName / CollectionName "accounts".
@@ -69,7 +69,7 @@
         It will use the default OData configuration details that are stored in the configuration store.
         
     .EXAMPLE
-        PS C:\> Get-D365ODataEntityData -EntityName accounts -ODataQuery '$top=10&$filter=address1_city eq ''New York'''
+        PS C:\> Get-D365CeODataEntityData -EntityName accounts -ODataQuery '$top=10&$filter=address1_city eq ''New York'''
         
         This will get Accounts from the OData endpoint.
         It will use the Account entity, and its EntitySetName / CollectionName "Accounts".
@@ -79,13 +79,13 @@
         It will use the default OData configuration details that are stored in the configuration store.
         
     .LINK
-        Add-D365ODataConfig
+        Add-D365CeODataConfig
         
     .LINK
-        Get-D365ActiveODataConfig
+        Get-D365CeActiveODataConfig
         
     .LINK
-        Set-D365ActiveODataConfig
+        Set-D365CeActiveODataConfig
         
     .NOTES
         The OData standard is using the $ (dollar sign) for many functions and features, which in PowerShell is normally used for variables.
@@ -104,7 +104,7 @@
         
 #>
 
-function Get-D365ODataEntityData {
+function Get-D365CeODataEntityData {
     [CmdletBinding(DefaultParameterSetName = "Default")]
     [OutputType()]
     param (

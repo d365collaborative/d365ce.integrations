@@ -42,20 +42,20 @@
 	
     # Functions to export from this module
     FunctionsToExport = @(
-            'Add-D365ODataConfig'
-        ,	'Enable-d365Exception'
+            'Add-D365CeODataConfig'
+        ,	'Enable-D365CeException'
 		
-        ,   'Get-D365ActiveODataConfig'
-        ,	'Get-D365ODataConfig'
-        ,   'Get-D365ODataEntityData'
-        ,	'Get-D365ODataEntityDataByKey'
+        ,   'Get-D365CeActiveODataConfig'
+        ,	'Get-D365CeODataConfig'
+        ,   'Get-D365CeODataEntityData'
+        ,	'Get-D365CeODataEntityDataByKey'
         
-        ,   'Import-D365ODataEntity'
-        ,   'Import-D365ODataEntityBatchMode'
+        ,   'Import-D365CeODataEntity'
+        ,   'Import-D365CeODataEntityBatchMode'
         
-        ,   'Remove-D365ODataEntity'
-        ,	'Set-D365ActiveODataConfig'
-        ,   'Update-D365ODataEntity'
+        ,   'Remove-D365CeODataEntity'
+        ,	'Set-D365CeActiveODataConfig'
+        ,   'Update-D365CeODataEntity'
     )
 	
     # Cmdlets to export from this module

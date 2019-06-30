@@ -14,7 +14,7 @@
         Instruct the cmdlet to only temporarily override the persisted settings in the configuration store
         
     .EXAMPLE
-        PS C:\> Set-D365ActiveBroadcastMessageConfig -Name "UAT"
+        PS C:\> Set-D365CeActiveBroadcastMessageConfig -Name "UAT"
         
         This will set the broadcast message configuration named "UAT" as the active configuration.
         
@@ -24,20 +24,20 @@
         Author: Mötz Jensen (@Splaxi)
         
     .LINK
-        Add-D365ODataConfig
+        Add-D365CeODataConfig
         
     .LINK
-        Get-D365ActiveODataConfig
+        Get-D365CeActiveODataConfig
         
     .LINK
-        Get-D365ODataConfig
+        Get-D365CeODataConfig
         
     .LINK
-        Set-D365ActiveODataConfig
+        Set-D365CeActiveODataConfig
         
 #>
 
-function Set-D365ActiveODataConfig {
+function Set-D365CeActiveODataConfig {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     [OutputType()]
