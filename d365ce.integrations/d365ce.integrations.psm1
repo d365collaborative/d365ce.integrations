@@ -1,5 +1,5 @@
 ﻿$script:ModuleRoot = $PSScriptRoot
-$script:ModuleVersion = (Import-PowerShellDataFile -Path "$($script:ModuleRoot)\d365ce.integrations.psd1").ModuleVersion
+$script:ModuleVersion = '0.1.0'
 
 $Script:TimeSignals = @{}
 
