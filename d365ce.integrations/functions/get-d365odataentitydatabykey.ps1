@@ -17,7 +17,7 @@
         
     .PARAMETER Key
         A string value that contains all needed fields and value to be a valid OData key
-
+        
         The key needs to be a valid http encoded value and each datatype needs to handled appropriately
         
     .PARAMETER ODataQuery
@@ -32,7 +32,7 @@
         $skip
         
         Each option has different characteristics, which is well documented at: http://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part2-url-conventions.html
-            
+        
     .PARAMETER Tenant
         Azure Active Directory (AAD) tenant id (Guid) that the D365CE environment is connected to, that you want to access through OData
         

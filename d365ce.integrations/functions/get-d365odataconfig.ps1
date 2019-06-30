@@ -41,13 +41,13 @@
         
     .LINK
         Add-D365ODataConfig
-
+        
     .LINK
         Get-D365ActiveODataConfig
-
+        
     .LINK
         Set-D365ActiveODataConfig
-
+        
 #>
 
 function Get-D365ODataConfig {

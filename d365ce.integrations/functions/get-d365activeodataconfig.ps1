@@ -22,13 +22,13 @@
         Tags: OData, Environment, Config, Configuration, ClientId, ClientSecret
         
         Author: Mötz Jensen (@Splaxi)
-    
+        
     .LINK
         Add-D365ODataConfig
-
+        
     .LINK
         Get-D365ODataConfig
-
+        
     .LINK
         Set-D365ActiveODataConfig
 #>

@@ -25,13 +25,13 @@
         
     .LINK
         Add-D365ODataConfig
-
+        
     .LINK
         Get-D365ActiveODataConfig
-
+        
     .LINK
         Get-D365ODataConfig
-
+        
     .LINK
         Set-D365ActiveODataConfig
         

@@ -47,10 +47,10 @@
         
     .LINK
         Get-D365ODataConfig
-
+        
     .LINK
         Get-D365ActiveODataConfig
-
+        
     .LINK
         Set-D365ActiveODataConfig
 #>

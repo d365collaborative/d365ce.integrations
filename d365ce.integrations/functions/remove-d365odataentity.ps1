@@ -54,8 +54,8 @@
         Tags: OData, Data, Entity, Import, Upload
         
         Author: Mötz Jensen (@Splaxi)
-
-            .LINK
+        
+    .LINK
         Add-D365ODataConfig
         
     .LINK
