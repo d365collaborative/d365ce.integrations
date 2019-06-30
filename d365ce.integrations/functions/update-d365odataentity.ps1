@@ -17,6 +17,11 @@
         
         Use the XRMToolBox (https://www.xrmtoolbox.com) to help you identify the names of the Data Entities that you are looking for
         
+    .PARAMETER Key
+        The key that will select the desired Data Entity uniquely across the OData endpoint
+        
+        The key would most likely be made up from multiple values, but can also be a single value
+        
     .PARAMETER Payload
         The entire string contain the json object that you want to import into the D365CE environment
         
@@ -76,6 +81,7 @@
 #>
 
 function Update-D365ODataEntity {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "")]
     [CmdletBinding()]
     [OutputType()]
     param (
