@@ -1,4 +1,4 @@
-﻿Describe "Remove-D365ODataEntity Unit Tests" -Tag "Unit" {
+Describe "Remove-D365ODataEntity Unit Tests" -Tag "Unit" {
 	BeforeAll {
 		# Place here all things needed to prepare for the tests
 	}
