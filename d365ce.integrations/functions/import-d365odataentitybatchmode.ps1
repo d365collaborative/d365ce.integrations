@@ -124,6 +124,7 @@ function Import-D365ODataEntityBatchMode {
 
         $dataBuilder = [System.Text.StringBuilder]::new()
 
+        $apiPath = Get-PSFConfigValue -FullName "d365ce.integrations.api.version"
     }
 
     process {
@@ -137,7 +138,7 @@ function Import-D365ODataEntityBatchMode {
         $batchPayload = "--batch_$idbatch"
         $changesetPayload = "--changeset_$idchangeset"
         
-        $request = [System.Net.WebRequest]::Create("$URL/data/`$batch")
+        $request = [System.Net.WebRequest]::Create("$URL/$apiPath/`$batch")
         $request.Headers["Authorization"] = $headers.Authorization
         $request.Method = "POST"
         $request.ContentType = "multipart/mixed; boundary=batch_$idBatch"

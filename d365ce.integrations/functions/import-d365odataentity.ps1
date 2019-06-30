@@ -114,6 +114,8 @@ function Import-D365ODataEntity {
         }
 
         $headers = New-AuthorizationHeaderBearerToken @headerParms
+
+        $apiPath = Get-PSFConfigValue -FullName "d365ce.integrations.api.version"
     }
 
     process {

@@ -39,23 +39,29 @@
         This is less user friendly, but allows catching exceptions in calling scripts
         
     .EXAMPLE
-        PS C:\> Update-D365ODataEntity -EntityName "ExchangeRates" -Key "accountid=b6f67ce7-2d46-e911-a823-000d3ab18255" -Payload '{"@odata.type" :"Microsoft.Dynamics.DataEntities.ExchangeRate", "RateTypeName": "TEST", "FromCurrency": "DKK", "ToCurrency": "EUR", "StartDate": "2019-01-03T00:00:00Z", "Rate": 745.10, "ConversionFactor": "Hundred", "RateTypeDescription": "TEST"}'
+        PS C:\> Update-D365ODataEntity -EntityName "accounts" -Key "accountid=4b306dc7-ab04-4ddf-b18d-d75ffa2dba2c" -Payload '{"address2_city": "Chicago"}'
         
-        This will import a Data Entity into Dynamics 365 Customer Engagement using the OData endpoint.
-        The EntityName used for the import is ExchangeRates.
-        The Payload is a valid json string, containing all the needed properties.
+        This will update a Data Entity in Dynamics 365 Customer Engagement using the OData endpoint.
+        The EntityName used for the import is "accounts".
+        It will use the "accountid=4b306dc7-ab04-4ddf-b18d-d75ffa2dba2c" as key to identify the unique Account record.
+        The Payload is a valid json string, containing the needed properties that we want to update.
         
+        It will use the default OData configuration details that are stored in the configuration store.
+
     .EXAMPLE
-        PS C:\> $Payload = '{"@odata.type" :"Microsoft.Dynamics.DataEntities.ExchangeRate", "RateTypeName": "TEST", "FromCurrency": "DKK", "ToCurrency": "EUR", "StartDate": "2019-01-03T00:00:00Z", "Rate": 745.10, "ConversionFactor": "Hundred", "RateTypeDescription": "TEST"}'
-        PS C:\> Update-D365ODataEntity -EntityName "ExchangeRates" -Key "accountid=b6f67ce7-2d46-e911-a823-000d3ab18255" -Payload $Payload
+        PS C:\> $Payload = '{"address2_city": "Chicago"}'
+        PS C:\> Update-D365ODataEntity -EntityName "accounts" -Key "accountid=4b306dc7-ab04-4ddf-b18d-d75ffa2dba2c" -Payload $Payload
         
-        This will import a Data Entity into Dynamics 365 Customer Engagement using the OData endpoint.
+        This will update a Data Entity in Dynamics 365 Customer Engagement using the OData endpoint.
         First the desired json data is put into the $Payload variable.
-        The EntityName used for the import is ExchangeRates.
+        The EntityName used for the import is "accounts".
+        It will use the "accountid=4b306dc7-ab04-4ddf-b18d-d75ffa2dba2c" as key to identify the unique Account record.
         The $Payload variable is passed to the cmdlet.
+
+        It will use the default OData configuration details that are stored in the configuration store.
         
     .NOTES
-        Tags: OData, Data, Entity, Import, Upload
+        Tags: OData, Data, Entity, Update, Upload
         
         Author: Mötz Jensen (@Splaxi)
         
@@ -117,6 +123,8 @@ function Update-D365ODataEntity {
         }
 
         $headers = New-AuthorizationHeaderBearerToken @headerParms
+
+        $apiPath = Get-PSFConfigValue -FullName "d365ce.integrations.api.version"
     }
 
     process {
@@ -130,12 +138,31 @@ function Update-D365ODataEntity {
 
         try {
             Write-PSFMessage -Level Verbose -Message "Executing http request against the OData endpoint." -Target $($odataEndpoint.Uri.AbsoluteUri)
-            Invoke-RestMethod -Method Get -Uri $odataEndpoint.Uri.AbsoluteUri -Headers $headers -ContentType 'application/json'
+            Invoke-RestMethod -Method Patch -Uri $odataEndpoint.Uri.AbsoluteUri -Headers $headers -ContentType 'application/json' -Body $Payload
+        }
+        catch [System.Net.WebException]
+        {
+            $webException = $_.Exception
             
-            # Invoke-RestMethod -Method Patch -Uri $odataEndpoint.Uri.AbsoluteUri -Headers $headers -ContentType 'application/json' -Body $Payload
+            if(($webException.Status -eq [System.Net.WebExceptionStatus]::ProtocolError) -and (-not($null -eq $webException.Response))) {
+                $resp = [System.Net.HttpWebResponse]$webException.Response
+
+                if($resp.StatusCode -eq [System.Net.HttpStatusCode]::NotFound){
+                    $messageString = "It seems that the OData endpoint was unable to locate the desired entity: $EntityName, based on the key: <c='em'>$key</c>. Please make sure that the key is <c='em'>valid</c> or try using the <c='em'>Get-D365OdataEntityData</c> cmdlet to search for the correct entity first."
+                    Write-PSFMessage -Level Host -Message $messageString -Exception $PSItem.Exception -Target $EntityName
+                    Stop-PSFFunction -Message "Stopping because of HTTP error 404." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', ''))) -ErrorRecord $_
+                    return
+                }
+                else {
+                    $messageString = "Something went wrong while updating the data entity through the OData endpoint for the entity: $EntityName"
+                    Write-PSFMessage -Level Host -Message $messageString -Exception $PSItem.Exception -Target $EntityName
+                    Stop-PSFFunction -Message "Stopping because of errors." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', ''))) -ErrorRecord $_
+                    return
+                }
+            }
         }
         catch {
-            $messageString = "Something went wrong while importing data through the OData endpoint for the entity: $EntityName"
+            $messageString = "Something went wrong while updating the data entity through the OData endpoint for the entity: $EntityName"
             Write-PSFMessage -Level Host -Message $messageString -Exception $PSItem.Exception -Target $EntityName
             Stop-PSFFunction -Message "Stopping because of errors." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', ''))) -ErrorRecord $_
             return

@@ -53,11 +53,11 @@
         Instructs the cmdlet to convert the output to a Json string
 
     .EXAMPLE
-        PS C:\> Get-D365ODataEntityDataByKey -EntityName accounts -Key "accountid=b6f67ce7-2d46-e911-a823-000d3ab18255"
+        PS C:\> Get-D365ODataEntityDataByKey -EntityName accounts -Key "accountid=4b306dc7-ab04-4ddf-b18d-d75ffa2dba2c"
         
         This will get the specific Account from the OData endpoint.
         It will use the "Account" entity, and its EntitySetName / CollectionName "accounts".
-        It will use the "accountid=b6f67ce7-2d46-e911-a823-000d3ab18255" as key to identify the unique Account record.
+        It will use the "accountid=4b306dc7-ab04-4ddf-b18d-d75ffa2dba2c" as key to identify the unique Account record.
         
         It will use the default OData configuration details that are stored in the configuration store.
 
