@@ -54,6 +54,15 @@
         Tags: OData, Data, Entity, Import, Upload
         
         Author: Mötz Jensen (@Splaxi)
+
+            .LINK
+        Add-D365ODataConfig
+        
+    .LINK
+        Get-D365ActiveODataConfig
+        
+    .LINK
+        Set-D365ActiveODataConfig
 #>
 
 function Remove-D365ODataEntity {
