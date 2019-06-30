@@ -80,7 +80,7 @@
         PSData = @{
 			
             # Tags applied to this module. These help with module discovery in online galleries.
-            Tags         = @('d365ce', 'Dynamics365', 'D365', 'CustomerEngagement', 'Customer Engagement', 'CRM', 'Dynamics365CE', 'Dynamics365Sales')
+            Tags         = @('d365ce', 'Dynamics365', 'D365', 'CustomerEngagement', 'CE', 'CRM', 'Dynamics365CE', 'Dynamics365Sales')
 			
             # A URL to the license for this module.
             LicenseUri   = "https://opensource.org/licenses/MIT"
