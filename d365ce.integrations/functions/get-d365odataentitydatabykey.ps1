@@ -51,27 +51,21 @@
         
     .PARAMETER OutputAsJson
         Instructs the cmdlet to convert the output to a Json string
-        
+
     .EXAMPLE
-        PS C:\> Get-D365ODataEntityDataByKey -EntityName CustomersV3 -Key "dataAreaId='DAT',CustomerAccount='123456789'"
+        PS C:\> Get-D365ODataEntityDataByKey -EntityName accounts -Key "accountid=b6f67ce7-2d46-e911-a823-000d3ab18255"
         
-        This will get the specific Customer from the OData endpoint.
-        It will use the "CustomerV3" entity, and its EntitySetName / CollectionName "CustomersV3".
-        It will use the "dataAreaId='DAT',CustomerAccount='123456789'" as key to identify the unique Customer record.
-        It will NOT look across companies.
+        This will get the specific Account from the OData endpoint.
+        It will use the "Account" entity, and its EntitySetName / CollectionName "accounts".
+        It will use the "accountid=b6f67ce7-2d46-e911-a823-000d3ab18255" as key to identify the unique Account record.
         
         It will use the default OData configuration details that are stored in the configuration store.
+
+    .NOTES
+        Tags: OData, Data, Entity, Query
         
-    .EXAMPLE
-        PS C:\> Get-D365ODataEntityDataByKey -EntityName CustomersV3 -Key "dataAreaId='DAT',CustomerAccount='123456789'"
-        
-        This will get the specific Customer from the OData endpoint.
-        It will use the "CustomerV3" entity, and its EntitySetName / CollectionName "CustomersV3".
-        It will use the "dataAreaId='DAT',CustomerAccount='123456789'" as key to identify the unique Customer record.
-        It will make sure to search across all legal entities / companies inside the D365CE environment.
-        
-        It will use the default OData configuration details that are stored in the configuration store.
-        
+        Author: Mötz Jensen (@Splaxi)
+
     .LINK
         Add-D365ODataConfig
         
@@ -80,21 +74,6 @@
         
     .LINK
         Set-D365ActiveODataConfig
-        
-    .NOTES
-        The OData standard is using the $ (dollar sign) for many functions and features, which in PowerShell is normally used for variables.
-        
-        Whenever you want to use the different query options, you need to take the $ sign and single quotes into consideration.
-        
-        Example of an execution where I want the top 1 result only, from a specific legal entity / company.
-        This example is using single quotes, to help PowerShell not trying to convert the $ into a variable.
-        Because the OData standard is using single quotes as text qualifiers, we need to escape them with multiple single quotes.
-        
-        -ODataQuery '$top=1&$filter=dataAreaId eq ''Comp1'''
-        
-        Tags: OData, Data, Entity, Query
-        
-        Author: Mötz Jensen (@Splaxi)
         
 #>
 
@@ -184,7 +163,7 @@ function Get-D365ODataEntityDataByKey {
                 $resp = [System.Net.HttpWebResponse]$webException.Response
 
                 if($resp.StatusCode -eq [System.Net.HttpStatusCode]::NotFound){
-                    $messageString = "It seems that the OData endpoint was unable to locate the desired entity: $EntityName, based on the key: <c='em'>$key</c>. Please make sure that the key is <c='em'>valid</c> or try using the <c='em'>-CrossCompany</c> parameter."
+                    $messageString = "It seems that the OData endpoint was unable to locate the desired entity: $EntityName, based on the key: <c='em'>$key</c>. Please make sure that the key is <c='em'>valid</c> or try using the <c='em'>Get-D365OdataEntityData</c> cmdlet to search for the correct entity first."
                     Write-PSFMessage -Level Host -Message $messageString -Exception $PSItem.Exception -Target $EntityName
                     Stop-PSFFunction -Message "Stopping because of HTTP error 404." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', ''))) -ErrorRecord $_
                     return

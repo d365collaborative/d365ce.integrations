@@ -26,9 +26,9 @@
     # Modules that must be imported into the global environment prior to importing
     # this module
     RequiredModules   = @(
-		@{ ModuleName = 'PSFramework'; ModuleVersion = '1.0.19' }
-		,	@{ ModuleName = 'PSNotification'; ModuleVersion = '0.5.3' }
-		,	@{ ModuleName = 'PSOAuthHelper'; ModuleVersion = '0.2.5' }
+        @{ ModuleName = 'PSFramework'; ModuleVersion = '1.0.19' }
+        ,	@{ ModuleName = 'PSNotification'; ModuleVersion = '0.5.3' }
+        ,	@{ ModuleName = 'PSOAuthHelper'; ModuleVersion = '0.2.5' }
     )
 	
     # Assemblies that must be loaded prior to importing this module
@@ -42,20 +42,20 @@
 	
     # Functions to export from this module
     FunctionsToExport = @(
-        'Add-D365ODataConfig'
+            'Add-D365ODataConfig'
         ,	'Enable-d365Exception'
 		
-        , 'Get-D365ActiveODataConfig'
+        ,   'Get-D365ActiveODataConfig'
         ,	'Get-D365ODataConfig'
-        , 'Get-D365ODataEntityData'
+        ,   'Get-D365ODataEntityData'
         ,	'Get-D365ODataEntityDataByKey'
         
-        , 'Import-D365ODataEntity'
-        , 'Import-D365ODataEntityBatchMode'
+        ,   'Import-D365ODataEntity'
+        ,   'Import-D365ODataEntityBatchMode'
         
-        , 'Remove-D365ODataEntity'
+        ,   'Remove-D365ODataEntity'
         ,	'Set-D365ActiveODataConfig'
-
+        ,   'Update-D365ODataEntity'
     )
 	
     # Cmdlets to export from this module
@@ -94,7 +94,7 @@
             # ReleaseNotes of this module
             # ReleaseNotes = ''
 			
-			IsPrerelease = 'True'
+            IsPrerelease = 'True'
 
         } # End of PSData hashtable
 		

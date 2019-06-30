@@ -15,17 +15,14 @@
         
         Remember that most Data Entities in a D365CE environment is named by its singular name, but most be retrieve using the plural name
         
-        E.g. The version 3 of the customers Data Entity is named CustomerV3, but can only be retrieving using CustomersV3
-        
-        Look at the Get-D365ODataPublicEntity cmdlet to help you obtain the correct name
+        E.g. The account Data Entity is named "account", but can only be retrieving using "accounts"
+
+        Use the XRMToolBox (https://www.xrmtoolbox.com) to help you identify the names of the Data Entities that you are looking for
         
     .PARAMETER Payload
         The entire string contain the json objects that you want to import into the D365CE environment
         
         Payload supports multiple json objects, that needs to be batched together
-        
-    .PARAMETER CrossCompany
-        Instruct the cmdlet / function to ensure the request against the OData endpoint will work across all companies
         
     .PARAMETER Tenant
         Azure Active Directory (AAD) tenant id (Guid) that the D365CE environment is connected to, that you want to access through OData
@@ -87,9 +84,6 @@ function Import-D365ODataEntityBatchMode {
         [Parameter(Mandatory = $true)]
         [Alias('Json')]
         [string[]] $Payload,
-
-        [Parameter(Mandatory = $false)]
-        [switch] $CrossCompany,
 
         [Parameter(Mandatory = $false)]
         [Alias('$AADGuid')]

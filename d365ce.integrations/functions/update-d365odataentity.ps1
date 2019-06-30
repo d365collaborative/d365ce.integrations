@@ -1,10 +1,10 @@
 ﻿
 <#
     .SYNOPSIS
-        Import a Data Entity into Dynamics 365 Customer Engagement
+        Update a Data Entity in Dynamics 365 Customer Engagement
         
     .DESCRIPTION
-        Imports a Data Entity, defined as a json payload, using the OData endpoint of the Dynamics 365 Customer Engagement
+        Updates a Data Entity, defined as a json payload, using the OData endpoint of the Dynamics 365 Customer Engagement platform
         
     .PARAMETER EntityName
         Name of the Data Entity you want to work against
@@ -21,7 +21,7 @@
         The entire string contain the json object that you want to import into the D365CE environment
         
         Remember that json is text based and can use either single quotes (') or double quotes (") as the text qualifier, so you might need to escape the different quotes in your payload before passing it in
-        
+       
     .PARAMETER Tenant
         Azure Active Directory (AAD) tenant id (Guid) that the D365CE environment is connected to, that you want to access through OData
         
@@ -39,7 +39,7 @@
         This is less user friendly, but allows catching exceptions in calling scripts
         
     .EXAMPLE
-        PS C:\> Import-D365ODataEntity -EntityName "ExchangeRates" -Payload '{"@odata.type" :"Microsoft.Dynamics.DataEntities.ExchangeRate", "RateTypeName": "TEST", "FromCurrency": "DKK", "ToCurrency": "EUR", "StartDate": "2019-01-03T00:00:00Z", "Rate": 745.10, "ConversionFactor": "Hundred", "RateTypeDescription": "TEST"}'
+        PS C:\> Update-D365ODataEntity -EntityName "ExchangeRates" -Key "accountid=b6f67ce7-2d46-e911-a823-000d3ab18255" -Payload '{"@odata.type" :"Microsoft.Dynamics.DataEntities.ExchangeRate", "RateTypeName": "TEST", "FromCurrency": "DKK", "ToCurrency": "EUR", "StartDate": "2019-01-03T00:00:00Z", "Rate": 745.10, "ConversionFactor": "Hundred", "RateTypeDescription": "TEST"}'
         
         This will import a Data Entity into Dynamics 365 Customer Engagement using the OData endpoint.
         The EntityName used for the import is ExchangeRates.
@@ -47,7 +47,7 @@
         
     .EXAMPLE
         PS C:\> $Payload = '{"@odata.type" :"Microsoft.Dynamics.DataEntities.ExchangeRate", "RateTypeName": "TEST", "FromCurrency": "DKK", "ToCurrency": "EUR", "StartDate": "2019-01-03T00:00:00Z", "Rate": 745.10, "ConversionFactor": "Hundred", "RateTypeDescription": "TEST"}'
-        PS C:\> Import-D365ODataEntity -EntityName "ExchangeRates" -Payload $Payload
+        PS C:\> Update-D365ODataEntity -EntityName "ExchangeRates" -Key "accountid=b6f67ce7-2d46-e911-a823-000d3ab18255" -Payload $Payload
         
         This will import a Data Entity into Dynamics 365 Customer Engagement using the OData endpoint.
         First the desired json data is put into the $Payload variable.
@@ -69,12 +69,15 @@
         Set-D365ActiveODataConfig
 #>
 
-function Import-D365ODataEntity {
+function Update-D365ODataEntity {
     [CmdletBinding()]
     [OutputType()]
     param (
         [Parameter(Mandatory = $true)]
         [string] $EntityName,
+
+        [Parameter(Mandatory = $true)]
+        [string] $Key,
 
         [Parameter(Mandatory = $true)]
         [Alias('Json')]
@@ -120,14 +123,16 @@ function Import-D365ODataEntity {
         Invoke-TimeSignal -Start
 
         Write-PSFMessage -Level Verbose -Message "Building request for the OData endpoint for entity named: $EntityName." -Target $EntityName
-        
-        [System.UriBuilder] $odataEndpoint = $URL
 
-        $odataEndpoint.Path = "$apiPath/$EntityName"
+        [System.UriBuilder] $odataEndpoint = $URL
+        
+        $odataEndpoint.Path = "$apiPath/$EntityName($Key)"
 
         try {
             Write-PSFMessage -Level Verbose -Message "Executing http request against the OData endpoint." -Target $($odataEndpoint.Uri.AbsoluteUri)
-            Invoke-RestMethod -Method POST -Uri $odataEndpoint.Uri.AbsoluteUri -Headers $headers -ContentType 'application/json' -Body $Payload
+            Invoke-RestMethod -Method Get -Uri $odataEndpoint.Uri.AbsoluteUri -Headers $headers -ContentType 'application/json'
+            
+            # Invoke-RestMethod -Method Patch -Uri $odataEndpoint.Uri.AbsoluteUri -Headers $headers -ContentType 'application/json' -Body $Payload
         }
         catch {
             $messageString = "Something went wrong while importing data through the OData endpoint for the entity: $EntityName"

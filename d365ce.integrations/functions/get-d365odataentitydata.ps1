@@ -13,10 +13,10 @@
         
         Remember that most Data Entities in a D365CE environment is named by its singular name, but most be retrieve using the plural name
         
-        E.g. The version 3 of the customers Data Entity is named CustomerV3, but can only be retrieving using CustomersV3
-        
-        Look at the Get-D365ODataPublicEntity cmdlet to help you obtain the correct name
-        
+        E.g. The account Data Entity is named "account", but can only be retrieving using "accounts"
+
+        Use the XRMToolBox (https://www.xrmtoolbox.com) to help you identify the names of the Data Entities that you are looking for
+
     .PARAMETER EntitySetName
         Name of the Data Entity you want to work against
         
@@ -34,9 +34,6 @@
         $skip
         
         Each option has different characteristics, which is well documented at: http://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part2-url-conventions.html
-        
-    .PARAMETER CrossCompany
-        Instruct the cmdlet / function to ensure the request against the OData endpoint will search across all companies
         
     .PARAMETER Tenant
         Azure Active Directory (AAD) tenant id (Guid) that the D365CE environment is connected to, that you want to access through OData
@@ -63,32 +60,21 @@
         Instructs the cmdlet to convert the output to a Json string
         
     .EXAMPLE
-        PS C:\> Get-D365ODataEntityData -EntityName CustomersV3 -ODataQuery '$top=1'
+        PS C:\> Get-D365ODataEntityData -EntityName accounts -ODataQuery '$top=1'
         
-        This will get Customers from the OData endpoint.
-        It will use the CustomerV3 entity, and its EntitySetName / CollectionName "CustomersV3".
-        It will get the top 1 results from the list of customers.
-        
-        It will use the default OData configuration details that are stored in the configuration store.
-        
-    .EXAMPLE
-        PS C:\> Get-D365ODataEntityData -EntityName CustomersV3 -ODataQuery '$top=10' -CrossCompany
-        
-        This will get Customers from the OData endpoint.
-        It will use the CustomerV3 entity, and its EntitySetName / CollectionName "CustomersV3".
-        It will get the top 10 results from the list of customers.
-        It will make sure to search across all legal entities / companies inside the D365CE environment.
+        This will get Accounts from the OData endpoint.
+        It will use the "Account" entity, and its EntitySetName / CollectionName "accounts".
+        It will get the top 1 results from the list of accounts.
         
         It will use the default OData configuration details that are stored in the configuration store.
         
     .EXAMPLE
-        PS C:\> Get-D365ODataEntityData -EntityName CustomersV3 -ODataQuery '$top=10&$filter=dataAreaId eq ''Comp1''' -CrossCompany
+        PS C:\> Get-D365ODataEntityData -EntityName accounts -ODataQuery '$top=10&$filter=address1_city eq ''New York'''
         
-        This will get Customers from the OData endpoint.
-        It will use the CustomerV3 entity, and its EntitySetName / CollectionName "CustomersV3".
-        It will get the top 10 results from the list of customers.
-        It will make sure to search across all legal entities / companies inside the D365CE environment.
-        It will search the customers inside the "Comp1" legal entity / company.
+        This will get Accounts from the OData endpoint.
+        It will use the Account entity, and its EntitySetName / CollectionName "Accounts".
+        It will get the top 10 results from the list of accounts.
+        It will filter the entities for records where the "address1_city" is 'New York'.
         
         It will use the default OData configuration details that are stored in the configuration store.
         
@@ -106,11 +92,11 @@
         
         Whenever you want to use the different query options, you need to take the $ sign and single quotes into consideration.
         
-        Example of an execution where I want the top 1 result only, from a specific legal entity / company.
+        Example of an execution where I want the top 1 result only, with a specific city filled out.
         This example is using single quotes, to help PowerShell not trying to convert the $ into a variable.
         Because the OData standard is using single quotes as text qualifiers, we need to escape them with multiple single quotes.
         
-        -ODataQuery '$top=1&$filter=dataAreaId eq ''Comp1'''
+        -ODataQuery '$top=1&$filter=address1_city eq ''New York'''
         
         Tags: OData, Data, Entity, Query
         
