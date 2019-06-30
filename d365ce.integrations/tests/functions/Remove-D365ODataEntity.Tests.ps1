@@ -24,28 +24,15 @@
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
-		It 'Should have the expected parameter EntityKey' {
-			$parameter = (Get-Command Remove-D365ODataEntity).Parameters['EntityKey']
-			$parameter.Name | Should -Be 'EntityKey'
-			$parameter.ParameterType.ToString() | Should -Be System.String[]
+		It 'Should have the expected parameter Key' {
+			$parameter = (Get-Command Remove-D365ODataEntity).Parameters['Key']
+			$parameter.Name | Should -Be 'Key'
+			$parameter.ParameterType.ToString() | Should -Be System.String
 			$parameter.IsDynamic | Should -Be $False
 			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
 			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
 			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $True
 			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be 1
-			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
-			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
-			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
-		}
-		It 'Should have the expected parameter CrossCompany' {
-			$parameter = (Get-Command Remove-D365ODataEntity).Parameters['CrossCompany']
-			$parameter.Name | Should -Be 'CrossCompany'
-			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter
-			$parameter.IsDynamic | Should -Be $False
-			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
-			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
-			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
-			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be -2147483648
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
@@ -119,8 +106,8 @@
 	
 	Describe "Testing parameterset __AllParameterSets" {
 		<#
-		__AllParameterSets -EntityName -EntityKey
-		__AllParameterSets -EntityName -EntityKey -CrossCompany -Tenant -URL -ClientId -ClientSecret -EnableException
+		__AllParameterSets -EntityName -Key
+		__AllParameterSets -EntityName -Key -Tenant -URL -ClientId -ClientSecret -EnableException
 		#>
 	}
 
