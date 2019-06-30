@@ -5,7 +5,7 @@ online version:
 schema: 2.0.0
 ---
 
-# Add-D365ODataConfig
+# Add-D365CeODataConfig
 
 ## SYNOPSIS
 Save an OData config
@@ -13,7 +13,7 @@ Save an OData config
 ## SYNTAX
 
 ```
-Add-D365ODataConfig [-Name] <String> [[-Tenant] <String>] [[-Url] <String>] [[-ClientId] <String>]
+Add-D365CeODataConfig [-Name] <String> [[-Tenant] <String>] [[-Url] <String>] [[-ClientId] <String>]
  [[-ClientSecret] <String>] [-Temporary] [-Force] [-EnableException] [<CommonParameters>]
 ```
 
@@ -24,7 +24,7 @@ Adds an OData config to the configuration store
 
 ### EXAMPLE 1
 ```
-Add-D365ODataConfig -Name "UAT" -Tenant "e674da86-7ee5-40a7-b777-1111111111111" -Url "https://usnconeboxax1aos.cloud.onebox.dynamics.com" -ClientId "dea8d7a9-1602-4429-b138-111111111111" -ClientSecret "Vja/VmdxaLOPR+alkjfsadffelkjlfw234522"
+Add-D365CeODataConfig -Name "UAT" -Tenant "e674da86-7ee5-40a7-b777-1111111111111" -Url "https://usnconeboxax1aos.cloud.onebox.dynamics.com" -ClientId "dea8d7a9-1602-4429-b138-111111111111" -ClientSecret "Vja/VmdxaLOPR+alkjfsadffelkjlfw234522"
 ```
 
 This will create an new OData configuration with the name "UAT".
@@ -171,9 +171,9 @@ Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS
 
-[Get-D365ODataConfig]()
+[Get-D365CeODataConfig]()
 
-[Get-D365ActiveODataConfig]()
+[Get-D365CeActiveODataConfig]()
 
-[Set-D365ActiveODataConfig]()
+[Set-D365CeActiveODataConfig]()
 

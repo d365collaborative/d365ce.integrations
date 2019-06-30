@@ -5,47 +5,31 @@ online version:
 schema: 2.0.0
 ---
 
-# Update-D365ODataEntity
+# Remove-D365CeODataEntity
 
 ## SYNOPSIS
-Update a Data Entity in Dynamics 365 Customer Engagement
+Remove a Data Entity from Dynamics 365 Customer Engagement
 
 ## SYNTAX
 
 ```
-Update-D365ODataEntity [-EntityName] <String> [-Key] <String> [-Payload] <String> [[-Tenant] <String>]
- [[-URL] <String>] [[-ClientId] <String>] [[-ClientSecret] <String>] [-EnableException] [<CommonParameters>]
+Remove-D365CeODataEntity [-EntityName] <String> [-Key] <String> [[-Tenant] <String>] [[-URL] <String>]
+ [[-ClientId] <String>] [[-ClientSecret] <String>] [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Updates a Data Entity, defined as a json payload, using the OData endpoint of the Dynamics 365 Customer Engagement platform
+Removes a Data Entity, defined by the EntityKey, using the OData endpoint of the Dynamics 365 Customer Engagement
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Update-D365ODataEntity -EntityName "accounts" -Key "accountid=4b306dc7-ab04-4ddf-b18d-d75ffa2dba2c" -Payload '{"address2_city": "Chicago"}'
+Remove-D365CeODataEntity -EntityName ExchangeRates -EntityKey "RateTypeName='TEST'","FromCurrency='DKK'","ToCurrency='EUR'","StartDate=2019-01-13T12:00:00Z"
 ```
 
-This will update a Data Entity in Dynamics 365 Customer Engagement using the OData endpoint.
-The EntityName used for the import is "accounts".
-It will use the "accountid=4b306dc7-ab04-4ddf-b18d-d75ffa2dba2c" as key to identify the unique Account record.
-The Payload is a valid json string, containing the needed properties that we want to update.
-
-It will use the default OData configuration details that are stored in the configuration store.
-
-### EXAMPLE 2
-```
-$Payload = '{"address2_city": "Chicago"}'
-```
-
-PS C:\\\> Update-D365ODataEntity -EntityName "accounts" -Key "accountid=4b306dc7-ab04-4ddf-b18d-d75ffa2dba2c" -Payload $Payload
-
-This will update a Data Entity in Dynamics 365 Customer Engagement using the OData endpoint.
-First the desired json data is put into the $Payload variable.
-The EntityName used for the import is "accounts".
-It will use the "accountid=4b306dc7-ab04-4ddf-b18d-d75ffa2dba2c" as key to identify the unique Account record.
-The $Payload variable is passed to the cmdlet.
+This will remove a Data Entity from the D365CE environment through OData.
+It will use the ExchangeRate entity, and its EntitySetName / CollectionName "ExchangeRates".
+It will use the "RateTypeName='TEST'","FromCurrency='DKK'","ToCurrency='EUR'","StartDate=2019-01-13T12:00:00Z" as the unique key for the entity.
 
 It will use the default OData configuration details that are stored in the configuration store.
 
@@ -76,7 +60,9 @@ Accept wildcard characters: False
 ```
 
 ### -Key
-{{Fill Key Description}}
+The key that will select the desired Data Entity uniquely across the OData endpoint
+
+The key would most likely be made up from multiple values, but can also be a single value
 
 ```yaml
 Type: String
@@ -85,23 +71,6 @@ Aliases:
 
 Required: True
 Position: 2
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Payload
-The entire string contain the json object that you want to import into the D365CE environment
-
-Remember that json is text based and can use either single quotes (') or double quotes (") as the text qualifier, so you might need to escape the different quotes in your payload before passing it in
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases: Json
-
-Required: True
-Position: 3
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -116,7 +85,7 @@ Parameter Sets: (All)
 Aliases: $AADGuid
 
 Required: False
-Position: 4
+Position: 3
 Default value: $Script:ODataTenant
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -131,7 +100,7 @@ Parameter Sets: (All)
 Aliases: URI
 
 Required: False
-Position: 5
+Position: 4
 Default value: $Script:ODataUrl
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -146,7 +115,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: 5
 Default value: $Script:ODataClientId
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -161,7 +130,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 7
+Position: 6
 Default value: $Script:ODataClientSecret
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -192,15 +161,15 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
-Tags: OData, Data, Entity, Update, Upload
+Tags: OData, Data, Entity, Import, Upload
 
 Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS
 
-[Add-D365ODataConfig]()
+[Add-D365CeODataConfig]()
 
-[Get-D365ActiveODataConfig]()
+[Get-D365CeActiveODataConfig]()
 
-[Set-D365ActiveODataConfig]()
+[Set-D365CeActiveODataConfig]()
 

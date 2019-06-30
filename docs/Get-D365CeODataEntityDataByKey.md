@@ -5,31 +5,39 @@ online version:
 schema: 2.0.0
 ---
 
-# Remove-D365ODataEntity
+# Get-D365CeODataEntityDataByKey
 
 ## SYNOPSIS
-Remove a Data Entity from Dynamics 365 Customer Engagement
+Get data from an Data Entity using OData, providing a key
 
 ## SYNTAX
 
+### Default (Default)
 ```
-Remove-D365ODataEntity [-EntityName] <String> [-Key] <String> [[-Tenant] <String>] [[-URL] <String>]
- [[-ClientId] <String>] [[-ClientSecret] <String>] [-EnableException] [<CommonParameters>]
+Get-D365CeODataEntityDataByKey [-ODataQuery <String>] [-Tenant <String>] [-URL <String>] [-ClientId <String>]
+ [-ClientSecret <String>] [-EnableException] [-OutputAsJson] [<CommonParameters>]
+```
+
+### Specific
+```
+Get-D365CeODataEntityDataByKey -EntityName <String> -Key <String> [-ODataQuery <String>] [-Tenant <String>]
+ [-URL <String>] [-ClientId <String>] [-ClientSecret <String>] [-EnableException] [-OutputAsJson]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Removes a Data Entity, defined by the EntityKey, using the OData endpoint of the Dynamics 365 Customer Engagement
+Get data from an Data Entity, by providing a key, using the OData endpoint of the Dynamics 365 Customer Engagement
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Remove-D365ODataEntity -EntityName ExchangeRates -EntityKey "RateTypeName='TEST'","FromCurrency='DKK'","ToCurrency='EUR'","StartDate=2019-01-13T12:00:00Z"
+Get-D365CeODataEntityDataByKey -EntityName accounts -Key "accountid=4b306dc7-ab04-4ddf-b18d-d75ffa2dba2c"
 ```
 
-This will remove a Data Entity from the D365CE environment through OData.
-It will use the ExchangeRate entity, and its EntitySetName / CollectionName "ExchangeRates".
-It will use the "RateTypeName='TEST'","FromCurrency='DKK'","ToCurrency='EUR'","StartDate=2019-01-13T12:00:00Z" as the unique key for the entity.
+This will get the specific Account from the OData endpoint.
+It will use the "Account" entity, and its EntitySetName / CollectionName "accounts".
+It will use the "accountid=4b306dc7-ab04-4ddf-b18d-d75ffa2dba2c" as key to identify the unique Account record.
 
 It will use the default OData configuration details that are stored in the configuration store.
 
@@ -43,32 +51,57 @@ The parameter is Case Sensitive, because the OData endpoint in D365CE is Case Se
 Remember that most Data Entities in a D365CE environment is named by its singular name, but most be retrieve using the plural name
 
 E.g.
-The account Data Entity is named "account", but can only be retrieving using "accounts"
-
-Use the XRMToolBox (https://www.xrmtoolbox.com) to help you identify the names of the Data Entities that you are looking for
+The builtin account Data Entity is named Account, but can only be retrieving using accounts
 
 ```yaml
 Type: String
-Parameter Sets: (All)
-Aliases:
+Parameter Sets: Specific
+Aliases: Name
 
 Required: True
-Position: 1
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -Key
-{{Fill Key Description}}
+A string value that contains all needed fields and value to be a valid OData key
+
+The key needs to be a valid http encoded value and each datatype needs to handled appropriately
+
+```yaml
+Type: String
+Parameter Sets: Specific
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ODataQuery
+Valid OData query string that you want to pass onto the D365 OData endpoint while retrieving data
+
+OData specific query options are:
+$filter
+$expand
+$select
+$orderby
+$top
+$skip
+
+Each option has different characteristics, which is well documented at: http://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part2-url-conventions.html
 
 ```yaml
 Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
-Position: 2
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -83,7 +116,7 @@ Parameter Sets: (All)
 Aliases: $AADGuid
 
 Required: False
-Position: 3
+Position: Named
 Default value: $Script:ODataTenant
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -98,7 +131,7 @@ Parameter Sets: (All)
 Aliases: URI
 
 Required: False
-Position: 4
+Position: Named
 Default value: $Script:ODataUrl
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -113,7 +146,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 5
+Position: Named
 Default value: $Script:ODataClientId
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -128,7 +161,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: Named
 Default value: $Script:ODataClientSecret
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -137,6 +170,21 @@ Accept wildcard characters: False
 ### -EnableException
 This parameters disables user-friendly warnings and enables the throwing of exceptions
 This is less user friendly, but allows catching exceptions in calling scripts
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -OutputAsJson
+Instructs the cmdlet to convert the output to a Json string
 
 ```yaml
 Type: SwitchParameter
@@ -159,15 +207,15 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
-Tags: OData, Data, Entity, Import, Upload
+Tags: OData, Data, Entity, Query
 
 Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS
 
-[Add-D365ODataConfig]()
+[Add-D365CeODataConfig]()
 
-[Get-D365ActiveODataConfig]()
+[Get-D365CeActiveODataConfig]()
 
-[Set-D365ActiveODataConfig]()
+[Set-D365CeActiveODataConfig]()
 

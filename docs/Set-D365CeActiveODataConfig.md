@@ -5,7 +5,7 @@ online version:
 schema: 2.0.0
 ---
 
-# Set-D365ActiveODataConfig
+# Set-D365CeActiveODataConfig
 
 ## SYNOPSIS
 Set the active broadcast message configuration
@@ -13,7 +13,7 @@ Set the active broadcast message configuration
 ## SYNTAX
 
 ```
-Set-D365ActiveODataConfig [-Name] <String> [-Temporary] [<CommonParameters>]
+Set-D365CeActiveODataConfig [-Name] <String> [-Temporary] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -23,7 +23,7 @@ Updates the current active broadcast message configuration with a new one
 
 ### EXAMPLE 1
 ```
-Set-D365ActiveBroadcastMessageConfig -Name "UAT"
+Set-D365CeActiveBroadcastMessageConfig -Name "UAT"
 ```
 
 This will set the broadcast message configuration named "UAT" as the active configuration.
@@ -75,11 +75,11 @@ Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS
 
-[Add-D365ODataConfig]()
+[Add-D365CeODataConfig]()
 
-[Get-D365ActiveODataConfig]()
+[Get-D365CeActiveODataConfig]()
 
-[Get-D365ODataConfig]()
+[Get-D365CeODataConfig]()
 
-[Set-D365ActiveODataConfig]()
+[Set-D365CeActiveODataConfig]()
 

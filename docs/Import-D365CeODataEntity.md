@@ -5,41 +5,43 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-D365ODataEntityDataByKey
+# Import-D365CeODataEntity
 
 ## SYNOPSIS
-Get data from an Data Entity using OData, providing a key
+Import a Data Entity into Dynamics 365 Customer Engagement
 
 ## SYNTAX
 
-### Default (Default)
 ```
-Get-D365ODataEntityDataByKey [-ODataQuery <String>] [-Tenant <String>] [-URL <String>] [-ClientId <String>]
- [-ClientSecret <String>] [-EnableException] [-OutputAsJson] [<CommonParameters>]
-```
-
-### Specific
-```
-Get-D365ODataEntityDataByKey -EntityName <String> -Key <String> [-ODataQuery <String>] [-Tenant <String>]
- [-URL <String>] [-ClientId <String>] [-ClientSecret <String>] [-EnableException] [-OutputAsJson]
- [<CommonParameters>]
+Import-D365CeODataEntity [-EntityName] <String> [-Payload] <String> [[-Tenant] <String>] [[-URL] <String>]
+ [[-ClientId] <String>] [[-ClientSecret] <String>] [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Get data from an Data Entity, by providing a key, using the OData endpoint of the Dynamics 365 Customer Engagement
+Imports a Data Entity, defined as a json payload, using the OData endpoint of the Dynamics 365 Customer Engagement
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Get-D365ODataEntityDataByKey -EntityName accounts -Key "accountid=4b306dc7-ab04-4ddf-b18d-d75ffa2dba2c"
+Import-D365CeODataEntity -EntityName "ExchangeRates" -Payload '{"@odata.type" :"Microsoft.Dynamics.DataEntities.ExchangeRate", "RateTypeName": "TEST", "FromCurrency": "DKK", "ToCurrency": "EUR", "StartDate": "2019-01-03T00:00:00Z", "Rate": 745.10, "ConversionFactor": "Hundred", "RateTypeDescription": "TEST"}'
 ```
 
-This will get the specific Account from the OData endpoint.
-It will use the "Account" entity, and its EntitySetName / CollectionName "accounts".
-It will use the "accountid=4b306dc7-ab04-4ddf-b18d-d75ffa2dba2c" as key to identify the unique Account record.
+This will import a Data Entity into Dynamics 365 Customer Engagement using the OData endpoint.
+The EntityName used for the import is ExchangeRates.
+The Payload is a valid json string, containing all the needed properties.
 
-It will use the default OData configuration details that are stored in the configuration store.
+### EXAMPLE 2
+```
+$Payload = '{"@odata.type" :"Microsoft.Dynamics.DataEntities.ExchangeRate", "RateTypeName": "TEST", "FromCurrency": "DKK", "ToCurrency": "EUR", "StartDate": "2019-01-03T00:00:00Z", "Rate": 745.10, "ConversionFactor": "Hundred", "RateTypeDescription": "TEST"}'
+```
+
+PS C:\\\> Import-D365CeODataEntity -EntityName "ExchangeRates" -Payload $Payload
+
+This will import a Data Entity into Dynamics 365 Customer Engagement using the OData endpoint.
+First the desired json data is put into the $Payload variable.
+The EntityName used for the import is ExchangeRates.
+The $Payload variable is passed to the cmdlet.
 
 ## PARAMETERS
 
@@ -51,57 +53,34 @@ The parameter is Case Sensitive, because the OData endpoint in D365CE is Case Se
 Remember that most Data Entities in a D365CE environment is named by its singular name, but most be retrieve using the plural name
 
 E.g.
-The builtin account Data Entity is named Account, but can only be retrieving using accounts
+The account Data Entity is named "account", but can only be retrieving using "accounts"
 
-```yaml
-Type: String
-Parameter Sets: Specific
-Aliases: Name
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Key
-A string value that contains all needed fields and value to be a valid OData key
-
-The key needs to be a valid http encoded value and each datatype needs to handled appropriately
-
-```yaml
-Type: String
-Parameter Sets: Specific
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ODataQuery
-Valid OData query string that you want to pass onto the D365 OData endpoint while retrieving data
-
-OData specific query options are:
-$filter
-$expand
-$select
-$orderby
-$top
-$skip
-
-Each option has different characteristics, which is well documented at: http://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part2-url-conventions.html
+Use the XRMToolBox (https://www.xrmtoolbox.com) to help you identify the names of the Data Entities that you are looking for
 
 ```yaml
 Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: False
-Position: Named
+Required: True
+Position: 1
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Payload
+The entire string contain the json object that you want to import into the D365CE environment
+
+Remember that json is text based and can use either single quotes (') or double quotes (") as the text qualifier, so you might need to escape the different quotes in your payload before passing it in
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: Json
+
+Required: True
+Position: 2
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -116,7 +95,7 @@ Parameter Sets: (All)
 Aliases: $AADGuid
 
 Required: False
-Position: Named
+Position: 3
 Default value: $Script:ODataTenant
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -131,7 +110,7 @@ Parameter Sets: (All)
 Aliases: URI
 
 Required: False
-Position: Named
+Position: 4
 Default value: $Script:ODataUrl
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -146,7 +125,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
+Position: 5
 Default value: $Script:ODataClientId
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -161,7 +140,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
+Position: 6
 Default value: $Script:ODataClientSecret
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -170,21 +149,6 @@ Accept wildcard characters: False
 ### -EnableException
 This parameters disables user-friendly warnings and enables the throwing of exceptions
 This is less user friendly, but allows catching exceptions in calling scripts
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -OutputAsJson
-Instructs the cmdlet to convert the output to a Json string
 
 ```yaml
 Type: SwitchParameter
@@ -207,15 +171,15 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
-Tags: OData, Data, Entity, Query
+Tags: OData, Data, Entity, Import, Upload
 
 Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS
 
-[Add-D365ODataConfig]()
+[Add-D365CeODataConfig]()
 
-[Get-D365ActiveODataConfig]()
+[Get-D365CeActiveODataConfig]()
 
-[Set-D365ActiveODataConfig]()
+[Set-D365CeActiveODataConfig]()
 

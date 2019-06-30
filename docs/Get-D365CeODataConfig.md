@@ -5,7 +5,7 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-D365ODataConfig
+# Get-D365CeODataConfig
 
 ## SYNOPSIS
 Get OData configs
@@ -13,7 +13,7 @@ Get OData configs
 ## SYNTAX
 
 ```
-Get-D365ODataConfig [[-Name] <String>] [-OutputAsHashtable] [-EnableException] [<CommonParameters>]
+Get-D365CeODataConfig [[-Name] <String>] [-OutputAsHashtable] [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -23,14 +23,14 @@ Get all OData configuration objects from the configuration store
 
 ### EXAMPLE 1
 ```
-Get-D365ODataConfig
+Get-D365CeODataConfig
 ```
 
 This will display all OData configurations on the machine.
 
 ### EXAMPLE 2
 ```
-Get-D365ODataConfig -OutputAsHashtable
+Get-D365CeODataConfig -OutputAsHashtable
 ```
 
 This will display all OData configurations on the machine.
@@ -38,7 +38,7 @@ Every object will be output as a hashtable, for you to utilize as parameters for
 
 ### EXAMPLE 3
 ```
-Get-D365ODataConfig -Name "UAT"
+Get-D365CeODataConfig -Name "UAT"
 ```
 
 This will display the OData configuration that is saved with the name "UAT" on the machine.
@@ -109,9 +109,9 @@ Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS
 
-[Add-D365ODataConfig]()
+[Add-D365CeODataConfig]()
 
-[Get-D365ActiveODataConfig]()
+[Get-D365CeActiveODataConfig]()
 
-[Set-D365ActiveODataConfig]()
+[Set-D365CeActiveODataConfig]()
 

@@ -5,7 +5,7 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-D365ODataEntityData
+# Get-D365CeODataEntityData
 
 ## SYNOPSIS
 Get data from an Data Entity using OData
@@ -14,13 +14,13 @@ Get data from an Data Entity using OData
 
 ### Default (Default)
 ```
-Get-D365ODataEntityData [-ODataQuery <String>] [-Tenant <String>] [-URL <String>] [-ClientId <String>]
+Get-D365CeODataEntityData [-ODataQuery <String>] [-Tenant <String>] [-URL <String>] [-ClientId <String>]
  [-ClientSecret <String>] [-EnableException] [-RawOutput] [-OutputAsJson] [<CommonParameters>]
 ```
 
 ### Specific
 ```
-Get-D365ODataEntityData -EntityName <String> [-ODataQuery <String>] [-Tenant <String>] [-URL <String>]
+Get-D365CeODataEntityData -EntityName <String> [-ODataQuery <String>] [-Tenant <String>] [-URL <String>]
  [-ClientId <String>] [-ClientSecret <String>] [-EnableException] [-RawOutput] [-OutputAsJson]
  [<CommonParameters>]
 ```
@@ -32,7 +32,7 @@ Get data from an Data Entity using the OData endpoint of the Dynamics 365 Custom
 
 ### EXAMPLE 1
 ```
-Get-D365ODataEntityData -EntityName accounts -ODataQuery '$top=1'
+Get-D365CeODataEntityData -EntityName accounts -ODataQuery '$top=1'
 ```
 
 This will get Accounts from the OData endpoint.
@@ -43,7 +43,7 @@ It will use the default OData configuration details that are stored in the confi
 
 ### EXAMPLE 2
 ```
-Get-D365ODataEntityData -EntityName accounts -ODataQuery '$top=10&$filter=address1_city eq ''New York'''
+Get-D365CeODataEntityData -EntityName accounts -ODataQuery '$top=10&$filter=address1_city eq ''New York'''
 ```
 
 This will get Accounts from the OData endpoint.
@@ -237,9 +237,9 @@ Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS
 
-[Add-D365ODataConfig]()
+[Add-D365CeODataConfig]()
 
-[Get-D365ActiveODataConfig]()
+[Get-D365CeActiveODataConfig]()
 
-[Set-D365ActiveODataConfig]()
+[Set-D365CeActiveODataConfig]()
 

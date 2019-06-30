@@ -5,7 +5,7 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-D365ActiveODataConfig
+# Get-D365CeActiveODataConfig
 
 ## SYNOPSIS
 Get the active OData configuration
@@ -13,7 +13,7 @@ Get the active OData configuration
 ## SYNTAX
 
 ```
-Get-D365ActiveODataConfig [-OutputAsHashtable] [-EnableException] [<CommonParameters>]
+Get-D365CeActiveODataConfig [-OutputAsHashtable] [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -23,7 +23,7 @@ Get the active OData configuration from the configuration store
 
 ### EXAMPLE 1
 ```
-Get-D365ActiveODataConfig
+Get-D365CeActiveODataConfig
 ```
 
 This will get the active OData configuration.
@@ -76,9 +76,9 @@ Author: Mötz Jensen (@Splaxi)
 
 ## RELATED LINKS
 
-[Add-D365ODataConfig]()
+[Add-D365CeODataConfig]()
 
-[Get-D365ODataConfig]()
+[Get-D365CeODataConfig]()
 
-[Set-D365ActiveODataConfig]()
+[Set-D365CeActiveODataConfig]()
 
