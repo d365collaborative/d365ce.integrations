@@ -125,7 +125,7 @@ function Remove-D365CeODataEntity {
             Invoke-RestMethod -Method DELETE -Uri $odataEndpoint.Uri.AbsoluteUri -Headers $headers -ContentType 'application/json'
         }
         catch {
-            $messageString = $((ConvertFrom-Json $_).Error.InnerError | ConvertTo-Json)
+            $messageString = $((ConvertFrom-Json $_).Error.InnerError | ConvertTo-Json -Depth 10)
             Write-PSFMessage -Level Host -Message $messageString -Exception $PSItem.Exception -Target $EntityName
             Stop-PSFFunction -Message "Stopping because of errors." -Exception $([System.Exception]::new($messageString)) -ErrorRecord $_
             return

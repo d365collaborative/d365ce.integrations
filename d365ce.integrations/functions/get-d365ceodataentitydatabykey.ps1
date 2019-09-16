@@ -149,7 +149,7 @@ function Get-D365CeODataEntityDataByKey {
             $res = Invoke-RestMethod -Method Get -Uri $odataEndpoint.Uri.AbsoluteUri -Headers $headers -ContentType 'application/json'
 
             if ($OutputAsJson) {
-                $res | ConvertTo-Json
+                $res | ConvertTo-Json -Depth 10
             }
             else {
                 $res

@@ -179,7 +179,7 @@ function Get-D365CeODataEntityData {
             }
 
             if ($OutputAsJson) {
-                $res | ConvertTo-Json
+                $res | ConvertTo-Json -Depth 10
             }
             else {
                 $res
