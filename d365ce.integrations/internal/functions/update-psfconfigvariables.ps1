@@ -32,12 +32,4 @@ function Update-PsfConfigVariables {
         Write-PSFMessage -Level Verbose -Message "$name" -Target $($config.Value)
         Set-Variable -Name $name -Value $config.Value -Scope Script
     }
-    
-    foreach ($config in Get-PSFConfig -FullName "d365ce.integrations.dmf.*") {
-        $item = $config.FullName.Replace("d365ce.integrations.", "")
-        $name = (Get-Culture).TextInfo.ToTitleCase($item).Replace(".","")
-        
-        Write-PSFMessage -Level Verbose -Message "$name" -Target $($config.Value)
-        Set-Variable -Name $name -Value $config.Value -Scope Script
-    }
 }
