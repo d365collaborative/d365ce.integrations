@@ -47,6 +47,7 @@
 		
         ,   'Get-D365CeActiveODataConfig'
         ,	'Get-D365CeODataConfig'
+        ,   'Get-D365CeODataEntity'
         ,   'Get-D365CeODataEntityData'
         ,	'Get-D365CeODataEntityDataByKey'
         
