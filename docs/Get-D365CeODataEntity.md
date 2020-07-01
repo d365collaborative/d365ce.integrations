@@ -5,72 +5,98 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-D365CeODataEntityData
+# Get-D365CeODataEntity
 
 ## SYNOPSIS
-Get data from an Data Entity using OData
+Get public OData Data Entity and their metadata
 
 ## SYNTAX
 
 ### Default (Default)
 ```
-Get-D365CeODataEntityData [-ODataQuery <String>] [-Tenant <String>] [-URL <String>] [-ClientId <String>]
- [-ClientSecret <String>] [-EnableException] [-RawOutput] [-OutputAsJson] [<CommonParameters>]
+Get-D365CeODataEntity [-EntityName <String>] [-ODataQuery <String>] [-Tenant <String>] [-URL <String>]
+ [-ClientId <String>] [-ClientSecret <String>] [-EnableException] [-RawOutput] [-OutNamesOnly] [-OutputAsJson]
+ [<CommonParameters>]
 ```
 
-### Specific
+### NameContains
 ```
-Get-D365CeODataEntityData -EntityName <String> [-ODataQuery <String>] [-Tenant <String>] [-URL <String>]
- [-ClientId <String>] [-ClientSecret <String>] [-EnableException] [-RawOutput] [-OutputAsJson]
+Get-D365CeODataEntity -EntityNameContains <String> [-ODataQuery <String>] [-Tenant <String>] [-URL <String>]
+ [-ClientId <String>] [-ClientSecret <String>] [-EnableException] [-RawOutput] [-OutNamesOnly] [-OutputAsJson]
  [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Get data from an Data Entity using the OData endpoint of the Dynamics 365 Customer Engagement
+Get a list with all the available OData Data Entities,and their metadata, that are exposed through the OData endpoint of the Dynamics 365 Customer Engagement instance
+
+The cmdlet will search across the singular names for the Data Entities and across the collection names (plural)
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Get-D365CeODataEntityData -EntityName accounts -ODataQuery '$top=1'
+Get-D365CeODataEntity -EntityName Account
 ```
 
-This will get Accounts from the OData endpoint.
-It will use the "Account" entity, and its EntitySetName / CollectionName "accounts".
-It will get the top 1 results from the list of accounts.
-
-It will use the default OData configuration details that are stored in the configuration store.
+This will get Data Entities from the OData endpoint.
+This will search for the Data Entities that are named "Account".
 
 ### EXAMPLE 2
 ```
-Get-D365CeODataEntityData -EntityName accounts -ODataQuery '$top=10&$filter=address1_city eq ''New York'''
+Get-D365CeODataEntity -EntityNameContains Account
 ```
 
-This will get Accounts from the OData endpoint.
-It will use the Account entity, and its EntitySetName / CollectionName "Accounts".
-It will get the top 10 results from the list of accounts.
-It will filter the entities for records where the "address1_city" is 'New York'.
+This will get Data Entities from the OData endpoint.
+It will use the search string "Account" to search for any entity in their singular & plural name contains that search term.
 
-It will use the default OData configuration details that are stored in the configuration store.
+### EXAMPLE 3
+```
+Get-D365CeODataEntity -EntityNameContains Account -OutNamesOnly
+```
+
+This will get Data Entities from the OData endpoint.
+It will use the search string "Account" to search for any entity in their singular & plural name contains that search term.
+It will only output the names for the entities and not all their metadata details.
+
+### EXAMPLE 4
+```
+Get-D365CeODataEntity -ODataQuery "`$filter=IsPrivate eq true" -OutNamesOnly
+```
+
+This will get Data Entities from the OData endpoint.
+It will utilize the OData Query capabilities to filter for Data Entities that are "IsPrivate = $true".
+It will only output the names for the entities and not all their metadata details.
 
 ## PARAMETERS
 
 ### -EntityName
-Name of the Data Entity you want to work against
+Name of the Data Entity you are searching for
 
-The parameter is Case Sensitive, because the OData endpoint in D365CE is Case Sensitive
-
-Remember that most Data Entities in a D365CE environment is named by its singular name, but most be retrieve using the plural name
-
-E.g.
-The account Data Entity is named "account", but can only be retrieving using "accounts"
-
-Use the XRMToolBox (https://www.xrmtoolbox.com) to help you identify the names of the Data Entities that you are looking for
+The parameter is Case Insensitive, to make it easier for the user to locate the correct Data Entity
 
 ```yaml
 Type: String
-Parameter Sets: Specific
-Aliases: Name
+Parameter Sets: Default
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -EntityNameContains
+Name of the Data Entity you are searching for, but instructing the cmdlet to use search logic
+
+Using this parameter enables you to supply only a portion of the name for the entity you are looking for, and still a valid result back
+
+The parameter is Case Insensitive, to make it easier for the user to locate the correct Data Entity
+
+```yaml
+Type: String
+Parameter Sets: NameContains
+Aliases:
 
 Required: True
 Position: Named
@@ -81,6 +107,13 @@ Accept wildcard characters: False
 
 ### -ODataQuery
 Valid OData query string that you want to pass onto the D365 OData endpoint while retrieving data
+
+Important note:
+If you are using -EntityName along with the -ODataQuery, you need to understand that the "$filter" query is already started.
+Then you need to start with -ODataQuery ' and XYZ eq XYZ', e.g.
+-ODataQuery ' and IsReadOnly eq false'
+If you are using the -ODataQuery alone, you need to start the OData Query string correctly.
+-ODataQuery '$filter=IsReadOnly eq false'
 
 OData specific query options are:
 $filter
@@ -197,6 +230,24 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -OutNamesOnly
+Instructs the cmdlet to only display the DataEntityName and the EntityName from the response received from OData endpoint
+
+DataEntityName is the (logical) name of the entity from a code perspective.
+EntityName is the public OData endpoint name of the entity.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -OutputAsJson
 Instructs the cmdlet to convert the output to a Json string
 
@@ -224,21 +275,14 @@ The OData standard is using the $ (dollar sign) for many functions and features,
 
 Whenever you want to use the different query options, you need to take the $ sign and single quotes into consideration.
 
-Example of an execution where I want the top 1 result only, with a specific city filled out.
+Example of an execution where I want the top 1 result only, from a specific legal entity / company.
 This example is using single quotes, to help PowerShell not trying to convert the $ into a variable.
 Because the OData standard is using single quotes as text qualifiers, we need to escape them with multiple single quotes.
 
--ODataQuery '$top=1&$filter=address1_city eq ''New York'''
+-ODataQuery '$top=1&$filter=dataAreaId eq ''Comp1'''
 
 Tags: OData, Data, Entity, Query
 
-Author: Mötz Jensen (@Splaxi)
+Author: M ¶tz Jensen (@Splaxi)
 
 ## RELATED LINKS
-
-[Add-D365CeODataConfig]()
-
-[Get-D365CeActiveODataConfig]()
-
-[Set-D365CeActiveODataConfig]()
-
