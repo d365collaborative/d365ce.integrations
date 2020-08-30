@@ -47,6 +47,11 @@
     .PARAMETER ClientSecret
         The ClientSecret obtained from the Azure Portal when you created a Registered Application
         
+    .PARAMETER FullODataMeta
+        Instruct the cmdlet to request all metadata to be filled into the payload
+
+        Useful when you are looking for navigation properties and linked entities
+        
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
         This is less user friendly, but allows catching exceptions in calling scripts
@@ -129,6 +134,8 @@ function Get-D365CeODataEntityData {
         [Parameter(Mandatory = $false)]
         [string] $ClientSecret = $Script:ODataClientSecret,
 
+        [switch] $FullODataMeta,
+
         [switch] $EnableException,
 
         [switch] $RawOutput,
@@ -169,10 +176,16 @@ function Get-D365CeODataEntityData {
         if (-not ([string]::IsNullOrEmpty($ODataQuery))) {
             $odataEndpoint.Query = "$ODataQuery"
         }
+
+        $contentType = 'application/json'
+
+        if($FullODataMeta){
+            $contentType = 'application/json; odata.metadata=full'
+        }
         
         try {
             Write-PSFMessage -Level Verbose -Message "Executing http request against the OData endpoint." -Target $($odataEndpoint.Uri.AbsoluteUri)
-            $res = Invoke-RestMethod -Method Get -Uri $odataEndpoint.Uri.AbsoluteUri -Headers $headers -ContentType 'application/json'
+            $res = Invoke-RestMethod -Method Get -Uri $odataEndpoint.Uri.AbsoluteUri -Headers $headers -ContentType $contentType
 
             if (-not $RawOutput) {
                 $res = $res.Value
