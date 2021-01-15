@@ -22,6 +22,18 @@
         
         Remember that json is text based and can use either single quotes (') or double quotes (") as the text qualifier, so you might need to escape the different quotes in your payload before passing it in
         
+    .PARAMETER PayloadCharset
+        The charset / encoding that you want the cmdlet to use while importing the odata entity
+        
+        The default value is: "UTF8"
+        
+        The charset has to be a valid http charset like: ASCII, ANSI, ISO-8859-1, UTF-8
+        
+    .PARAMETER RefPath
+        Path for working with the referene capabilities of the OData endpoint
+        
+        Can be used to map / assiociate an entity to another, like systemuser to a role
+        
     .PARAMETER Tenant
         Azure Active Directory (AAD) tenant id (Guid) that the D365CE environment is connected to, that you want to access through OData
         
@@ -54,10 +66,22 @@
         The EntityName used for the import is ExchangeRates.
         The $Payload variable is passed to the cmdlet.
         
+    .EXAMPLE
+        PS C:\> $Payload = '{"@odata.id":"[Organization URI]/api/data/v9.0/roles(00000000-0000-0000-0000-000000000001)"}'
+        PS C:\> Import-D365CeODataEntity -EntityName "systemusers" -Payload $Payload -RefPath '(00000000-0000-0000-0000-000000000002)/systemuserroles_association/$ref'
+        
+        This will create a referene between the systemusers Data Entity and the systemuserroles in Dynamics 365 Customer Engagement using the OData endpoint.
+        First the desired json data is put into the $Payload variable.
+        The EntityName used for the import is systemusers.
+        The RefPath '(00000000-0000-0000-0000-000000000002)/systemuserroles_association/$ref' is the systemuser "00000000-0000-0000-0000-000000000002" which you want to associate with the role "00000000-0000-0000-0000-000000000001"
+        The $Payload variable is passed to the cmdlet.
+        
     .NOTES
         Tags: OData, Data, Entity, Import, Upload
         
         Author: Mötz Jensen (@Splaxi)
+        
+        The reference parameter was implemented based on the details on this stackoverflow post: https://stackoverflow.com/questions/51238107/associate-role-to-a-user-microsoft-dynamics-crm-rest-api
         
     .LINK
         Add-D365CeODataConfig
@@ -78,20 +102,21 @@ function Import-D365CeODataEntity {
 
         [Parameter(Mandatory = $true)]
         [Alias('Json')]
+        [AllowEmptyString()]
         [string] $Payload,
 
-        [Parameter(Mandatory = $false)]
+        [string] $PayloadCharset = "UTF-8",
+
+        [string] $RefPath,
+
         [Alias('$AADGuid')]
         [string] $Tenant = $Script:ODataTenant,
 
-        [Parameter(Mandatory = $false)]
         [Alias('URI')]
         [string] $URL = $Script:ODataUrl,
 
-        [Parameter(Mandatory = $false)]
         [string] $ClientId = $Script:ODataClientId,
 
-        [Parameter(Mandatory = $false)]
         [string] $ClientSecret = $Script:ODataClientSecret,
 
         [switch] $EnableException
@@ -116,6 +141,11 @@ function Import-D365CeODataEntity {
         $headers = New-AuthorizationHeaderBearerToken @headerParms
 
         $apiPath = Get-PSFConfigValue -FullName "d365ce.integrations.api.version"
+
+        $PayloadCharset = $PayloadCharset.ToLower()
+        if ($PayloadCharset -like "utf*" -and $PayloadCharset -notlike "utf-*") {
+            $PayloadCharset = $PayloadCharset -replace "utf", "utf-"
+        }
     }
 
     process {
@@ -125,11 +155,11 @@ function Import-D365CeODataEntity {
         
         [System.UriBuilder] $odataEndpoint = $URL
 
-        $odataEndpoint.Path = "$apiPath/$EntityName"
+        $odataEndpoint.Path = "$apiPath/$EntityName" + $RefPath
 
         try {
             Write-PSFMessage -Level Verbose -Message "Executing http request against the OData endpoint." -Target $($odataEndpoint.Uri.AbsoluteUri)
-            Invoke-RestMethod -Method POST -Uri $odataEndpoint.Uri.AbsoluteUri -Headers $headers -ContentType 'application/json' -Body $Payload
+            Invoke-RestMethod -Method POST -Uri $odataEndpoint.Uri.AbsoluteUri -Headers $headers -ContentType "application/json;charset=$PayloadCharset" -Body $Payload
         }
         catch {
             $messageString = "Something went wrong while importing data through the OData endpoint for the entity: $EntityName"

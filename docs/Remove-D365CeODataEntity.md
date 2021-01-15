@@ -13,8 +13,8 @@ Remove a Data Entity from Dynamics 365 Customer Engagement
 ## SYNTAX
 
 ```
-Remove-D365CeODataEntity [-EntityName] <String> [-Key] <String> [[-Tenant] <String>] [[-URL] <String>]
- [[-ClientId] <String>] [[-ClientSecret] <String>] [-EnableException] [<CommonParameters>]
+Remove-D365CeODataEntity [-EntityName] <String> [-Key] <String> [[-RefPath] <String>] [[-Tenant] <String>]
+ [[-URL] <String>] [[-ClientId] <String>] [[-ClientSecret] <String>] [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -30,6 +30,18 @@ Remove-D365CeODataEntity -EntityName ExchangeRates -EntityKey "RateTypeName='TES
 This will remove a Data Entity from the D365CE environment through OData.
 It will use the ExchangeRate entity, and its EntitySetName / CollectionName "ExchangeRates".
 It will use the "RateTypeName='TEST'","FromCurrency='DKK'","ToCurrency='EUR'","StartDate=2019-01-13T12:00:00Z" as the unique key for the entity.
+
+It will use the default OData configuration details that are stored in the configuration store.
+
+### EXAMPLE 2
+```
+Remove-D365CeODataEntity -EntityName "systemusers" -Key "00000000-0000-0000-0000-000000000002" -RefPath '/systemuserroles_association(00000000-0000-0000-0000-000000000001)/$ref'
+```
+
+This will remove the mapping / association between 2 Data Entities from the D365CE environment through OData.
+The EntityName is "systemusers" which is the user, that you want to remove from a role.
+The Key "00000000-0000-0000-0000-000000000002" is the unique systemuserid for the user that you want to work against.
+The RefPath '/systemuserroles_association(00000000-0000-0000-0000-000000000001)/$ref' points to the unique roleid that you want to remove the user from.
 
 It will use the default OData configuration details that are stored in the configuration store.
 
@@ -76,6 +88,23 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -RefPath
+Path for working with the referene capabilities of the OData endpoint
+
+Can be used to unmap / deassiociate an entity from another, like removing a systemuser from a role
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 3
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Tenant
 Azure Active Directory (AAD) tenant id (Guid) that the D365CE environment is connected to, that you want to access through OData
 
@@ -85,7 +114,7 @@ Parameter Sets: (All)
 Aliases: $AADGuid
 
 Required: False
-Position: 3
+Position: 4
 Default value: $Script:ODataTenant
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -100,7 +129,7 @@ Parameter Sets: (All)
 Aliases: URI
 
 Required: False
-Position: 4
+Position: 5
 Default value: $Script:ODataUrl
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -115,7 +144,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 5
+Position: 6
 Default value: $Script:ODataClientId
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -130,7 +159,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: 7
 Default value: $Script:ODataClientSecret
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -153,8 +182,7 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
-For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
