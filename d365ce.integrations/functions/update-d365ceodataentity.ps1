@@ -27,6 +27,20 @@
         
         Remember that json is text based and can use either single quotes (') or double quotes (") as the text qualifier, so you might need to escape the different quotes in your payload before passing it in
         
+    .PARAMETER PayloadCharset
+        The charset / encoding that you want the cmdlet to use while updating the odata entity
+        
+        The default value is: "UTF8"
+        
+        The charset has to be a valid http charset like: ASCII, ANSI, ISO-8859-1, UTF-8
+        
+    .PARAMETER PayloadCharset
+        The charset / encoding that you want the cmdlet to use while importing the odata entity
+        
+        The default value is: "UTF8"
+        
+        The charset has to be a valid http charset like: ASCII, ANSI, ISO-8859-1, UTF-8
+        
     .PARAMETER Tenant
         Azure Active Directory (AAD) tenant id (Guid) that the D365CE environment is connected to, that you want to access through OData
         
@@ -95,6 +109,8 @@ function Update-D365CeODataEntity {
         [Alias('Json')]
         [string] $Payload,
 
+        [string] $PayloadCharset = "UTF-8",
+        
         [Parameter(Mandatory = $false)]
         [Alias('$AADGuid')]
         [string] $Tenant = $Script:ODataTenant,
@@ -131,6 +147,11 @@ function Update-D365CeODataEntity {
         $headers = New-AuthorizationHeaderBearerToken @headerParms
 
         $apiPath = Get-PSFConfigValue -FullName "d365ce.integrations.api.version"
+
+        $PayloadCharset = $PayloadCharset.ToLower()
+        if ($PayloadCharset -like "utf*" -and $PayloadCharset -notlike "utf-*") {
+            $PayloadCharset = $PayloadCharset -replace "utf", "utf-"
+        }
     }
 
     process {
@@ -144,16 +165,15 @@ function Update-D365CeODataEntity {
 
         try {
             Write-PSFMessage -Level Verbose -Message "Executing http request against the OData endpoint." -Target $($odataEndpoint.Uri.AbsoluteUri)
-            Invoke-RestMethod -Method Patch -Uri $odataEndpoint.Uri.AbsoluteUri -Headers $headers -ContentType 'application/json' -Body $Payload
+            Invoke-RestMethod -Method Patch -Uri $odataEndpoint.Uri.AbsoluteUri -Headers $headers -ContentType "application/json;charset=$PayloadCharset" -Body $Payload
         }
-        catch [System.Net.WebException]
-        {
+        catch [System.Net.WebException] {
             $webException = $_.Exception
             
-            if(($webException.Status -eq [System.Net.WebExceptionStatus]::ProtocolError) -and (-not($null -eq $webException.Response))) {
+            if (($webException.Status -eq [System.Net.WebExceptionStatus]::ProtocolError) -and (-not($null -eq $webException.Response))) {
                 $resp = [System.Net.HttpWebResponse]$webException.Response
 
-                if($resp.StatusCode -eq [System.Net.HttpStatusCode]::NotFound){
+                if ($resp.StatusCode -eq [System.Net.HttpStatusCode]::NotFound) {
                     $messageString = "It seems that the OData endpoint was unable to locate the desired entity: $EntityName, based on the key: <c='em'>$key</c>. Please make sure that the key is <c='em'>valid</c> or try using the <c='em'>Get-D365CeOdataEntityData</c> cmdlet to search for the correct entity first."
                     Write-PSFMessage -Level Host -Message $messageString -Exception $PSItem.Exception -Target $EntityName
                     Stop-PSFFunction -Message "Stopping because of HTTP error 404." -Exception $([System.Exception]::new($($messageString -replace '<[^>]+>', ''))) -ErrorRecord $_

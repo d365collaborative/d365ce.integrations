@@ -13,8 +13,9 @@ Import a Data Entity into Dynamics 365 Customer Engagement
 ## SYNTAX
 
 ```
-Import-D365CeODataEntity [-EntityName] <String> [-Payload] <String> [[-Tenant] <String>] [[-URL] <String>]
- [[-ClientId] <String>] [[-ClientSecret] <String>] [-EnableException] [<CommonParameters>]
+Import-D365CeODataEntity [-EntityName] <String> [-Payload] <String> [[-PayloadCharset] <String>]
+ [[-RefPath] <String>] [[-Tenant] <String>] [[-URL] <String>] [[-ClientId] <String>] [[-ClientSecret] <String>]
+ [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -41,6 +42,19 @@ PS C:\\\> Import-D365CeODataEntity -EntityName "ExchangeRates" -Payload $Payload
 This will import a Data Entity into Dynamics 365 Customer Engagement using the OData endpoint.
 First the desired json data is put into the $Payload variable.
 The EntityName used for the import is ExchangeRates.
+The $Payload variable is passed to the cmdlet.
+
+### EXAMPLE 3
+```
+$Payload = '{"@odata.id":"[Organization URI]/api/data/v9.0/roles(00000000-0000-0000-0000-000000000001)"}'
+```
+
+PS C:\\\> Import-D365CeODataEntity -EntityName "systemusers" -Payload $Payload -RefPath '(00000000-0000-0000-0000-000000000002)/systemuserroles_association/$ref'
+
+This will create a referene between the systemusers Data Entity and the systemuserroles in Dynamics 365 Customer Engagement using the OData endpoint.
+First the desired json data is put into the $Payload variable.
+The EntityName used for the import is systemusers.
+The RefPath '(00000000-0000-0000-0000-000000000002)/systemuserroles_association/$ref' is the systemuser "00000000-0000-0000-0000-000000000002" which you want to associate with the role "00000000-0000-0000-0000-000000000001"
 The $Payload variable is passed to the cmdlet.
 
 ## PARAMETERS
@@ -86,6 +100,42 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -PayloadCharset
+The charset / encoding that you want the cmdlet to use while importing the odata entity
+
+The default value is: "UTF8"
+
+The charset has to be a valid http charset like: ASCII, ANSI, ISO-8859-1, UTF-8
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 3
+Default value: UTF-8
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -RefPath
+Path for working with the referene capabilities of the OData endpoint
+
+Can be used to map / assiociate an entity to another, like systemuser to a role
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 4
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Tenant
 Azure Active Directory (AAD) tenant id (Guid) that the D365CE environment is connected to, that you want to access through OData
 
@@ -95,7 +145,7 @@ Parameter Sets: (All)
 Aliases: $AADGuid
 
 Required: False
-Position: 3
+Position: 5
 Default value: $Script:ODataTenant
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -110,7 +160,7 @@ Parameter Sets: (All)
 Aliases: URI
 
 Required: False
-Position: 4
+Position: 6
 Default value: $Script:ODataUrl
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -125,7 +175,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 5
+Position: 7
 Default value: $Script:ODataClientId
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -140,7 +190,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: 8
 Default value: $Script:ODataClientSecret
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -163,8 +213,7 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
-For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
@@ -174,6 +223,8 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 Tags: OData, Data, Entity, Import, Upload
 
 Author: Mötz Jensen (@Splaxi)
+
+The reference parameter was implemented based on the details on this stackoverflow post: https://stackoverflow.com/questions/51238107/associate-role-to-a-user-microsoft-dynamics-crm-rest-api
 
 ## RELATED LINKS
 

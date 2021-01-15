@@ -35,6 +35,13 @@
         
         Each option has different characteristics, which is well documented at: http://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part2-url-conventions.html
         
+    .PARAMETER Charset
+        The charset / encoding that you want the cmdlet to use while fetching the odata entity
+        
+        The default value is: "UTF8"
+        
+        The charset has to be a valid http charset like: ASCII, ANSI, ISO-8859-1, UTF-8
+        
     .PARAMETER Tenant
         Azure Active Directory (AAD) tenant id (Guid) that the D365CE environment is connected to, that you want to access through OData
         
@@ -49,7 +56,7 @@
         
     .PARAMETER FullODataMeta
         Instruct the cmdlet to request all metadata to be filled into the payload
-
+        
         Useful when you are looking for navigation properties and linked entities
         
     .PARAMETER EnableException
@@ -68,6 +75,15 @@
         PS C:\> Get-D365CeODataEntityData -EntityName accounts -ODataQuery '$top=1'
         
         This will get Accounts from the OData endpoint.
+        It will use the "Account" entity, and its EntitySetName / CollectionName "accounts".
+        It will get the top 1 results from the list of accounts.
+        
+        It will use the default OData configuration details that are stored in the configuration store.
+        
+    .EXAMPLE
+        PS C:\> Get-D365CeODataEntityData -EntityName accounts -ODataQuery '$top=1' -FullODataMeta
+        
+        This will get Accounts, and include all metadata, from the OData endpoint.
         It will use the "Account" entity, and its EntitySetName / CollectionName "accounts".
         It will get the top 1 results from the list of accounts.
         
@@ -120,6 +136,8 @@ function Get-D365CeODataEntityData {
         [Parameter(Mandatory = $false)]
         [string] $ODataQuery,
 
+        [string] $Charset = "UTF-8",
+        
         [Parameter(Mandatory = $false)]
         [Alias('$AADGuid')]
         [string] $Tenant = $Script:ODataTenant,
@@ -162,6 +180,11 @@ function Get-D365CeODataEntityData {
         $headers = New-AuthorizationHeaderBearerToken @headerParms
 
         $apiPath = Get-PSFConfigValue -FullName "d365ce.integrations.api.version"
+
+        $Charset = $Charset.ToLower()
+        if ($Charset -like "utf*" -and $Charset -notlike "utf-*") {
+            $Charset = $Charset -replace "utf", "utf-"
+        }
     }
 
     process {
@@ -177,15 +200,16 @@ function Get-D365CeODataEntityData {
             $odataEndpoint.Query = "$ODataQuery"
         }
 
-        $contentType = 'application/json'
-
         if($FullODataMeta){
-            $contentType = 'application/json; odata.metadata=full'
+            $headers.Add("Content-Type","application/json; odata.metadata=full; charset=$Charset")
+        }
+        else {
+            $headers.Add("Content-Type","application/json; charset=$Charset")
         }
         
         try {
             Write-PSFMessage -Level Verbose -Message "Executing http request against the OData endpoint." -Target $($odataEndpoint.Uri.AbsoluteUri)
-            $res = Invoke-RestMethod -Method Get -Uri $odataEndpoint.Uri.AbsoluteUri -Headers $headers -ContentType $contentType
+            $res = Invoke-RestMethod -Method Get -Uri $odataEndpoint.Uri.AbsoluteUri -Headers $headers
 
             if (-not $RawOutput) {
                 $res = $res.Value
