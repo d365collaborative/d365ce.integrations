@@ -50,6 +50,19 @@
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
+		It 'Should have the expected parameter Charset' {
+			$parameter = (Get-Command Get-D365CeODataEntityDataByKey).Parameters['Charset']
+			$parameter.Name | Should -Be 'Charset'
+			$parameter.ParameterType.ToString() | Should -Be System.String
+			$parameter.IsDynamic | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
+			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
+			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be -2147483648
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
+		}
 		It 'Should have the expected parameter Tenant' {
 			$parameter = (Get-Command Get-D365CeODataEntityDataByKey).Parameters['Tenant']
 			$parameter.Name | Should -Be 'Tenant'
@@ -102,6 +115,19 @@
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
+		It 'Should have the expected parameter FullODataMeta' {
+			$parameter = (Get-Command Get-D365CeODataEntityDataByKey).Parameters['FullODataMeta']
+			$parameter.Name | Should -Be 'FullODataMeta'
+			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter
+			$parameter.IsDynamic | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Be '__AllParameterSets'
+			$parameter.ParameterSets.Keys | Should -Contain '__AllParameterSets'
+			$parameter.ParameterSets['__AllParameterSets'].IsMandatory | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].Position | Should -Be -2147483648
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
+		}
 		It 'Should have the expected parameter EnableException' {
 			$parameter = (Get-Command Get-D365CeODataEntityDataByKey).Parameters['EnableException']
 			$parameter.Name | Should -Be 'EnableException'
@@ -133,13 +159,13 @@
 	Describe "Testing parameterset Default" {
 		<#
 		Default -
-		Default -ODataQuery -Tenant -URL -ClientId -ClientSecret -EnableException -OutputAsJson
+		Default -ODataQuery -Charset -Tenant -URL -ClientId -ClientSecret -FullODataMeta -EnableException -OutputAsJson
 		#>
 	}
  	Describe "Testing parameterset Specific" {
 		<#
 		Specific -EntityName -Key
-		Specific -EntityName -Key -ODataQuery -Tenant -URL -ClientId -ClientSecret -EnableException -OutputAsJson
+		Specific -EntityName -Key -ODataQuery -Charset -Tenant -URL -ClientId -ClientSecret -FullODataMeta -EnableException -OutputAsJson
 		#>
 	}
 

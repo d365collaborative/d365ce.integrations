@@ -14,15 +14,16 @@ Get data from an Data Entity using OData
 
 ### Default (Default)
 ```
-Get-D365CeODataEntityData [-ODataQuery <String>] [-Tenant <String>] [-URL <String>] [-ClientId <String>]
- [-ClientSecret <String>] [-EnableException] [-RawOutput] [-OutputAsJson] [<CommonParameters>]
+Get-D365CeODataEntityData [-ODataQuery <String>] [-Charset <String>] [-Tenant <String>] [-URL <String>]
+ [-ClientId <String>] [-ClientSecret <String>] [-FullODataMeta] [-EnableException] [-RawOutput] [-OutputAsJson]
+ [<CommonParameters>]
 ```
 
 ### Specific
 ```
-Get-D365CeODataEntityData -EntityName <String> [-ODataQuery <String>] [-Tenant <String>] [-URL <String>]
- [-ClientId <String>] [-ClientSecret <String>] [-EnableException] [-RawOutput] [-OutputAsJson]
- [<CommonParameters>]
+Get-D365CeODataEntityData -EntityName <String> [-ODataQuery <String>] [-Charset <String>] [-Tenant <String>]
+ [-URL <String>] [-ClientId <String>] [-ClientSecret <String>] [-FullODataMeta] [-EnableException] [-RawOutput]
+ [-OutputAsJson] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -42,6 +43,17 @@ It will get the top 1 results from the list of accounts.
 It will use the default OData configuration details that are stored in the configuration store.
 
 ### EXAMPLE 2
+```
+Get-D365CeODataEntityData -EntityName accounts -ODataQuery '$top=1' -FullODataMeta
+```
+
+This will get Accounts, and include all metadata, from the OData endpoint.
+It will use the "Account" entity, and its EntitySetName / CollectionName "accounts".
+It will get the top 1 results from the list of accounts.
+
+It will use the default OData configuration details that are stored in the configuration store.
+
+### EXAMPLE 3
 ```
 Get-D365CeODataEntityData -EntityName accounts -ODataQuery '$top=10&$filter=address1_city eq ''New York'''
 ```
@@ -100,6 +112,25 @@ Aliases:
 Required: False
 Position: Named
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Charset
+The charset / encoding that you want the cmdlet to use while fetching the odata entity
+
+The default value is: "UTF8"
+
+The charset has to be a valid http charset like: ASCII, ANSI, ISO-8859-1, UTF-8
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: UTF-8
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -164,6 +195,23 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -FullODataMeta
+Instruct the cmdlet to request all metadata to be filled into the payload
+
+Useful when you are looking for navigation properties and linked entities
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -EnableException
 This parameters disables user-friendly warnings and enables the throwing of exceptions
 This is less user friendly, but allows catching exceptions in calling scripts
@@ -213,8 +261,7 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
-For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

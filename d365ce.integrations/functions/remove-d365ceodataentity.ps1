@@ -22,6 +22,11 @@
         
         The key would most likely be made up from multiple values, but can also be a single value
         
+    .PARAMETER RefPath
+        Path for working with the referene capabilities of the OData endpoint
+        
+        Can be used to unmap / deassiociate an entity from another, like removing a systemuser from a role
+        
     .PARAMETER Tenant
         Azure Active Directory (AAD) tenant id (Guid) that the D365CE environment is connected to, that you want to access through OData
         
@@ -44,6 +49,16 @@
         This will remove a Data Entity from the D365CE environment through OData.
         It will use the ExchangeRate entity, and its EntitySetName / CollectionName "ExchangeRates".
         It will use the "RateTypeName='TEST'","FromCurrency='DKK'","ToCurrency='EUR'","StartDate=2019-01-13T12:00:00Z" as the unique key for the entity.
+        
+        It will use the default OData configuration details that are stored in the configuration store.
+        
+    .EXAMPLE
+        PS C:\> Remove-D365CeODataEntity -EntityName "systemusers" -Key "00000000-0000-0000-0000-000000000002" -RefPath '/systemuserroles_association(00000000-0000-0000-0000-000000000001)/$ref'
+        
+        This will remove the mapping / association between 2 Data Entities from the D365CE environment through OData.
+        The EntityName is "systemusers" which is the user, that you want to remove from a role.
+        The Key "00000000-0000-0000-0000-000000000002" is the unique systemuserid for the user that you want to work against.
+        The RefPath '/systemuserroles_association(00000000-0000-0000-0000-000000000001)/$ref' points to the unique roleid that you want to remove the user from.
         
         It will use the default OData configuration details that are stored in the configuration store.
         
@@ -72,6 +87,8 @@ function Remove-D365CeODataEntity {
 
         [Parameter(Mandatory = $true)]
         [string] $Key,
+
+        [string] $RefPath,
 
         [Parameter(Mandatory = $false)]
         [Alias('$AADGuid')]
@@ -118,7 +135,7 @@ function Remove-D365CeODataEntity {
 
         [System.UriBuilder] $odataEndpoint = $URL
 
-        $odataEndpoint.Path = "$apiPath/$EntityName($Key)"
+        $odataEndpoint.Path = "$apiPath/$EntityName($Key)" + $RefPath
 
         try {
             Write-PSFMessage -Level Verbose -Message "Executing http request against the OData endpoint." -Target $($odataEndpoint.Uri.AbsoluteUri)

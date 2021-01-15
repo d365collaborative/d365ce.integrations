@@ -13,8 +13,9 @@ Update a Data Entity in Dynamics 365 Customer Engagement
 ## SYNTAX
 
 ```
-Update-D365CeODataEntity [-EntityName] <String> [-Key] <String> [-Payload] <String> [[-Tenant] <String>]
- [[-URL] <String>] [[-ClientId] <String>] [[-ClientSecret] <String>] [-EnableException] [<CommonParameters>]
+Update-D365CeODataEntity [-EntityName] <String> [-Key] <String> [-Payload] <String>
+ [[-PayloadCharset] <String>] [[-Tenant] <String>] [[-URL] <String>] [[-ClientId] <String>]
+ [[-ClientSecret] <String>] [-EnableException] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -109,6 +110,25 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -PayloadCharset
+The charset / encoding that you want the cmdlet to use while updating the odata entity
+
+The default value is: "UTF8"
+
+The charset has to be a valid http charset like: ASCII, ANSI, ISO-8859-1, UTF-8
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 4
+Default value: UTF-8
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Tenant
 Azure Active Directory (AAD) tenant id (Guid) that the D365CE environment is connected to, that you want to access through OData
 
@@ -118,7 +138,7 @@ Parameter Sets: (All)
 Aliases: $AADGuid
 
 Required: False
-Position: 4
+Position: 5
 Default value: $Script:ODataTenant
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -133,7 +153,7 @@ Parameter Sets: (All)
 Aliases: URI
 
 Required: False
-Position: 5
+Position: 6
 Default value: $Script:ODataUrl
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -148,7 +168,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: 7
 Default value: $Script:ODataClientId
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -163,7 +183,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 7
+Position: 8
 Default value: $Script:ODataClientSecret
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -186,8 +206,7 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
-For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
