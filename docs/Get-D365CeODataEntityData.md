@@ -14,16 +14,16 @@ Get data from an Data Entity using OData
 
 ### Default (Default)
 ```
-Get-D365CeODataEntityData [-ODataQuery <String>] [-Charset <String>] [-Tenant <String>] [-URL <String>]
- [-ClientId <String>] [-ClientSecret <String>] [-FullODataMeta] [-EnableException] [-RawOutput] [-OutputAsJson]
- [<CommonParameters>]
-```
-
-### Specific
-```
 Get-D365CeODataEntityData -EntityName <String> [-ODataQuery <String>] [-Charset <String>] [-Tenant <String>]
  [-URL <String>] [-ClientId <String>] [-ClientSecret <String>] [-FullODataMeta] [-EnableException] [-RawOutput]
  [-OutputAsJson] [<CommonParameters>]
+```
+
+### NextLink
+```
+Get-D365CeODataEntityData -EntityName <String> [-ODataQuery <String>] [-Charset <String>] [-Tenant <String>]
+ [-URL <String>] [-ClientId <String>] [-ClientSecret <String>] [-FullODataMeta] [-TraverseNextLink]
+ [-ThrottleSeed <Int32>] [-EnableException] [-RawOutput] [-OutputAsJson] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -65,6 +65,29 @@ It will filter the entities for records where the "address1_city" is 'New York'.
 
 It will use the default OData configuration details that are stored in the configuration store.
 
+### EXAMPLE 4
+```
+Get-D365CeODataEntityData -EntityName accounts -TraverseNextLink
+```
+
+This will get Accounts from the OData endpoint.
+It will use the Account entity, and its EntitySetName / CollectionName "Accounts".
+It will traverse all NextLink that will occur while fetching data from the OData endpoint.
+
+It will use the default OData configuration details that are stored in the configuration store.
+
+### EXAMPLE 5
+```
+Get-D365CeODataEntityData -EntityName accounts -TraverseNextLink -ThrottleSeed 2
+```
+
+This will get Accounts from the OData endpoint, and sleep/pause between 1 and 2 seconds for each NextLink.
+It will use the Account entity, and its EntitySetName / CollectionName "Accounts".
+It will traverse all NextLink that will occur while fetching data from the OData endpoint.
+It will use the ThrottleSeed 2 to sleep/pause the execution, to mitigate the 429 pushback from the endpoint.
+
+It will use the default OData configuration details that are stored in the configuration store.
+
 ## PARAMETERS
 
 ### -EntityName
@@ -81,7 +104,7 @@ Use the XRMToolBox (https://www.xrmtoolbox.com) to help you identify the names o
 
 ```yaml
 Type: String
-Parameter Sets: Specific
+Parameter Sets: (All)
 Aliases: Name
 
 Required: True
@@ -208,6 +231,42 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TraverseNextLink
+Instruct the cmdlet to keep traversing the NextLink if the result set from the OData endpoint is larger than what one round trip can handle
+
+The system default is 5,000 (5 thousands) at the time of writing this feature in February 2022
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: NextLink
+Aliases:
+
+Required: True
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ThrottleSeed
+Instruct the cmdlet to invoke a thread sleep between 1 and ThrottleSeed value
+
+This is to help to mitigate the 429 retry throttling on the OData endpoints
+
+It will only be available in combination with the TraverseNextLink parameter
+
+```yaml
+Type: Int32
+Parameter Sets: NextLink
+Aliases:
+
+Required: False
+Position: Named
+Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

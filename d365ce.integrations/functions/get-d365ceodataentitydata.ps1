@@ -70,7 +70,7 @@
         This is to help to mitigate the 429 retry throttling on the OData endpoints
         
         It will only be available in combination with the TraverseNextLink parameter
-
+        
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
         This is less user friendly, but allows catching exceptions in calling scripts
@@ -108,6 +108,25 @@
         It will use the Account entity, and its EntitySetName / CollectionName "Accounts".
         It will get the top 10 results from the list of accounts.
         It will filter the entities for records where the "address1_city" is 'New York'.
+        
+        It will use the default OData configuration details that are stored in the configuration store.
+        
+    .EXAMPLE
+        PS C:\> Get-D365CeODataEntityData -EntityName accounts -TraverseNextLink
+        
+        This will get Accounts from the OData endpoint.
+        It will use the Account entity, and its EntitySetName / CollectionName "Accounts".
+        It will traverse all NextLink that will occur while fetching data from the OData endpoint.
+        
+        It will use the default OData configuration details that are stored in the configuration store.
+        
+    .EXAMPLE
+        PS C:\> Get-D365CeODataEntityData -EntityName accounts -TraverseNextLink -ThrottleSeed 2
+        
+        This will get Accounts from the OData endpoint, and sleep/pause between 1 and 2 seconds for each NextLink.
+        It will use the Account entity, and its EntitySetName / CollectionName "Accounts".
+        It will traverse all NextLink that will occur while fetching data from the OData endpoint.
+        It will use the ThrottleSeed 2 to sleep/pause the execution, to mitigate the 429 pushback from the endpoint.
         
         It will use the default OData configuration details that are stored in the configuration store.
         
