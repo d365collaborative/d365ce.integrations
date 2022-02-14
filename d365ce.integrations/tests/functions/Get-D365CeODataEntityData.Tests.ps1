@@ -8,7 +8,7 @@
 	
 	Describe "Ensuring unchanged command signature" {
 		It "should have the expected parameter sets" {
-			(Get-Command Get-D365CeODataEntityData).ParameterSets.Name | Should -Be 'Default', 'Specific'
+			(Get-Command Get-D365CeODataEntityData).ParameterSets.Name | Should -Be 'Default', 'NextLink'
 		}
 		
 		It 'Should have the expected parameter EntityName' {
@@ -16,13 +16,19 @@
 			$parameter.Name | Should -Be 'EntityName'
 			$parameter.ParameterType.ToString() | Should -Be System.String
 			$parameter.IsDynamic | Should -Be $False
-			$parameter.ParameterSets.Keys | Should -Be 'Specific'
-			$parameter.ParameterSets.Keys | Should -Contain 'Specific'
-			$parameter.ParameterSets['Specific'].IsMandatory | Should -Be $True
-			$parameter.ParameterSets['Specific'].Position | Should -Be -2147483648
-			$parameter.ParameterSets['Specific'].ValueFromPipeline | Should -Be $False
-			$parameter.ParameterSets['Specific'].ValueFromPipelineByPropertyName | Should -Be $False
-			$parameter.ParameterSets['Specific'].ValueFromRemainingArguments | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Be 'NextLink', 'Default'
+			$parameter.ParameterSets.Keys | Should -Contain 'NextLink'
+			$parameter.ParameterSets['NextLink'].IsMandatory | Should -Be $True
+			$parameter.ParameterSets['NextLink'].Position | Should -Be -2147483648
+			$parameter.ParameterSets['NextLink'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['NextLink'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['NextLink'].ValueFromRemainingArguments | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Contain 'Default'
+			$parameter.ParameterSets['Default'].IsMandatory | Should -Be $True
+			$parameter.ParameterSets['Default'].Position | Should -Be -2147483648
+			$parameter.ParameterSets['Default'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['Default'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['Default'].ValueFromRemainingArguments | Should -Be $False
 		}
 		It 'Should have the expected parameter ODataQuery' {
 			$parameter = (Get-Command Get-D365CeODataEntityData).Parameters['ODataQuery']
@@ -115,6 +121,32 @@
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromPipelineByPropertyName | Should -Be $False
 			$parameter.ParameterSets['__AllParameterSets'].ValueFromRemainingArguments | Should -Be $False
 		}
+		It 'Should have the expected parameter TraverseNextLink' {
+			$parameter = (Get-Command Get-D365CeODataEntityData).Parameters['TraverseNextLink']
+			$parameter.Name | Should -Be 'TraverseNextLink'
+			$parameter.ParameterType.ToString() | Should -Be System.Management.Automation.SwitchParameter
+			$parameter.IsDynamic | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Be 'NextLink'
+			$parameter.ParameterSets.Keys | Should -Contain 'NextLink'
+			$parameter.ParameterSets['NextLink'].IsMandatory | Should -Be $True
+			$parameter.ParameterSets['NextLink'].Position | Should -Be -2147483648
+			$parameter.ParameterSets['NextLink'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['NextLink'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['NextLink'].ValueFromRemainingArguments | Should -Be $False
+		}
+		It 'Should have the expected parameter ThrottleSeed' {
+			$parameter = (Get-Command Get-D365CeODataEntityData).Parameters['ThrottleSeed']
+			$parameter.Name | Should -Be 'ThrottleSeed'
+			$parameter.ParameterType.ToString() | Should -Be System.Int32
+			$parameter.IsDynamic | Should -Be $False
+			$parameter.ParameterSets.Keys | Should -Be 'NextLink'
+			$parameter.ParameterSets.Keys | Should -Contain 'NextLink'
+			$parameter.ParameterSets['NextLink'].IsMandatory | Should -Be $False
+			$parameter.ParameterSets['NextLink'].Position | Should -Be -2147483648
+			$parameter.ParameterSets['NextLink'].ValueFromPipeline | Should -Be $False
+			$parameter.ParameterSets['NextLink'].ValueFromPipelineByPropertyName | Should -Be $False
+			$parameter.ParameterSets['NextLink'].ValueFromRemainingArguments | Should -Be $False
+		}
 		It 'Should have the expected parameter EnableException' {
 			$parameter = (Get-Command Get-D365CeODataEntityData).Parameters['EnableException']
 			$parameter.Name | Should -Be 'EnableException'
@@ -158,14 +190,14 @@
 	
 	Describe "Testing parameterset Default" {
 		<#
-		Default -
-		Default -ODataQuery -Charset -Tenant -URL -ClientId -ClientSecret -FullODataMeta -EnableException -RawOutput -OutputAsJson
+		Default -EntityName
+		Default -EntityName -ODataQuery -Charset -Tenant -URL -ClientId -ClientSecret -FullODataMeta -EnableException -RawOutput -OutputAsJson
 		#>
 	}
- 	Describe "Testing parameterset Specific" {
+ 	Describe "Testing parameterset NextLink" {
 		<#
-		Specific -EntityName
-		Specific -EntityName -ODataQuery -Charset -Tenant -URL -ClientId -ClientSecret -FullODataMeta -EnableException -RawOutput -OutputAsJson
+		NextLink -EntityName -TraverseNextLink
+		NextLink -EntityName -ODataQuery -Charset -Tenant -URL -ClientId -ClientSecret -FullODataMeta -TraverseNextLink -ThrottleSeed -EnableException -RawOutput -OutputAsJson
 		#>
 	}
 

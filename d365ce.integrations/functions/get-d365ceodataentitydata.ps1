@@ -59,6 +59,18 @@
         
         Useful when you are looking for navigation properties and linked entities
         
+    .PARAMETER TraverseNextLink
+        Instruct the cmdlet to keep traversing the NextLink if the result set from the OData endpoint is larger than what one round trip can handle
+        
+        The system default is 5,000 (5 thousands) at the time of writing this feature in February 2022
+        
+    .PARAMETER ThrottleSeed
+        Instruct the cmdlet to invoke a thread sleep between 1 and ThrottleSeed value
+        
+        This is to help to mitigate the 429 retry throttling on the OData endpoints
+        
+        It will only be available in combination with the TraverseNextLink parameter
+        
     .PARAMETER EnableException
         This parameters disables user-friendly warnings and enables the throwing of exceptions
         This is less user friendly, but allows catching exceptions in calling scripts
@@ -99,6 +111,25 @@
         
         It will use the default OData configuration details that are stored in the configuration store.
         
+    .EXAMPLE
+        PS C:\> Get-D365CeODataEntityData -EntityName accounts -TraverseNextLink
+        
+        This will get Accounts from the OData endpoint.
+        It will use the Account entity, and its EntitySetName / CollectionName "Accounts".
+        It will traverse all NextLink that will occur while fetching data from the OData endpoint.
+        
+        It will use the default OData configuration details that are stored in the configuration store.
+        
+    .EXAMPLE
+        PS C:\> Get-D365CeODataEntityData -EntityName accounts -TraverseNextLink -ThrottleSeed 2
+        
+        This will get Accounts from the OData endpoint, and sleep/pause between 1 and 2 seconds for each NextLink.
+        It will use the Account entity, and its EntitySetName / CollectionName "Accounts".
+        It will traverse all NextLink that will occur while fetching data from the OData endpoint.
+        It will use the ThrottleSeed 2 to sleep/pause the execution, to mitigate the 429 pushback from the endpoint.
+        
+        It will use the default OData configuration details that are stored in the configuration store.
+        
     .LINK
         Add-D365CeODataConfig
         
@@ -129,7 +160,9 @@ function Get-D365CeODataEntityData {
     [CmdletBinding(DefaultParameterSetName = "Default")]
     [OutputType()]
     param (
-        [Parameter(Mandatory = $true, ParameterSetName = "Specific")]
+        [Parameter(Mandatory = $true, ParameterSetName = "Default")]
+        [Parameter(Mandatory = $true, ParameterSetName = "NextLink")]
+
         [Alias('Name')]
         [string] $EntityName,
 
@@ -153,6 +186,12 @@ function Get-D365CeODataEntityData {
         [string] $ClientSecret = $Script:ODataClientSecret,
 
         [switch] $FullODataMeta,
+
+        [Parameter(Mandatory = $true, ParameterSetName = "NextLink")]
+        [switch] $TraverseNextLink,
+
+        [Parameter(ParameterSetName = "NextLink")]
+        [int] $ThrottleSeed,
 
         [switch] $EnableException,
 
@@ -185,6 +224,8 @@ function Get-D365CeODataEntityData {
         if ($Charset -like "utf*" -and $Charset -notlike "utf-*") {
             $Charset = $Charset -replace "utf", "utf-"
         }
+
+        $SystemUrl = $URL
     }
 
     process {
@@ -200,19 +241,44 @@ function Get-D365CeODataEntityData {
             $odataEndpoint.Query = "$ODataQuery"
         }
 
-        if($FullODataMeta){
-            $headers.Add("Content-Type","application/json; odata.metadata=full; charset=$Charset")
+        if ($FullODataMeta) {
+            $headers.Add("Content-Type", "application/json; odata.metadata=full; charset=$Charset")
         }
         else {
-            $headers.Add("Content-Type","application/json; charset=$Charset")
+            $headers.Add("Content-Type", "application/json; charset=$Charset")
         }
         
         try {
-            Write-PSFMessage -Level Verbose -Message "Executing http request against the OData endpoint." -Target $($odataEndpoint.Uri.AbsoluteUri)
-            $res = Invoke-RestMethod -Method Get -Uri $odataEndpoint.Uri.AbsoluteUri -Headers $headers
+            [System.Collections.Generic.List[System.Object]] $resArray = @()
 
-            if (-not $RawOutput) {
-                $res = $res.Value
+            $localUri = $odataEndpoint.Uri.AbsoluteUri
+            do {
+
+                Write-PSFMessage -Level Verbose -Message "Executing http request against the OData endpoint." -Target $localUri
+                $resGet = Invoke-RestMethod -Method Get -Uri $localUri -Headers $headers
+
+                if (Test-PSFFunctionInterrupt) { return }
+
+                if (-not $RawOutput) {
+                    $resArray.AddRange($resGet.Value)
+
+                    Write-PSFMessage -Level Verbose -Message "Total number of objects: $($resArray.Count)"
+                }
+                else {
+                    $res = $resGet
+                }
+                
+                if ($($resGet.'@odata.nextLink') -match ".*(/api/data/.*)") {
+                    $localUri = "$SystemUrl$($Matches[1])"
+                }
+
+                if ($ThrottleSeed) {
+                    Start-Sleep -Seconds $(Get-Random -Minimum 1 -Maximum $ThrottleSeed)
+                }
+            }while ($TraverseNextLink -and $resGet.'@odata.nextLink')
+
+            if ($resArray.Count -gt 0) {
+                $res = $resArray.ToArray()
             }
 
             if ($OutputAsJson) {
